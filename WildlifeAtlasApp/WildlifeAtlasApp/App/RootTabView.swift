@@ -19,7 +19,8 @@ struct RootTabView: View {
     init(dependencies: AppDependencies) {
         _observationsViewModel = State(
             initialValue: ObservationsViewModel(
-                observationRepository: dependencies.observationRepository
+                observationRepository: dependencies.observationRepository,
+                appSettings: dependencies.appSettings
             )
         )
     }

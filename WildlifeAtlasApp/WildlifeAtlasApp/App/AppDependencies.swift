@@ -9,6 +9,7 @@ import Foundation
 
 struct AppDependencies {
     let observationRepository: any ObservationRepository
+    let appSettings: AppSettings
 
     init() {
         let apiClient = URLSessionAPIClient(
@@ -18,12 +19,21 @@ struct AppDependencies {
         let observationRepository = INaturalistObservationRepository(
             apiClient: apiClient
         )
-        
-        self.init(observationRepository: observationRepository)
+
+        let appSettings = AppSettings(userDefaults: .standard)
+
+        self.init(
+            observationRepository: observationRepository,
+            appSettings: appSettings
+        )
     }
 
-    init(observationRepository: any ObservationRepository) {
+    init(
+        observationRepository: any ObservationRepository,
+        appSettings: AppSettings
+    ) {
         self.observationRepository = observationRepository
+        self.appSettings = appSettings
     }
 
     private static let iNaturalistAPIBaseURL: URL = {

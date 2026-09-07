@@ -22,6 +22,11 @@
 		3C52544A304DA55200383DEE /* ObservationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525452304DA55200383DEE /* ObservationRowView.swift */; };
 		3C52545C304DA55200383DEE /* ObservationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52545A304DA55200383DEE /* ObservationPage.swift */; };
 		3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52545D304DA55200383DEE /* URLSessionAPIClient.swift */; };
+		3C525460304DA55200383DEE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52545F304DA55200383DEE /* AppSettings.swift */; };
+		3C525462304DA55200383DEE /* ObservationLayoutMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525461304DA55200383DEE /* ObservationLayoutMode.swift */; };
+		3C525464304DA55200383DEE /* ObservationGridItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525463304DA55200383DEE /* ObservationGridItemView.swift */; };
+		3C525466304DA55200383DEE /* ObservationPreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525465304DA55200383DEE /* ObservationPreviewImageView.swift */; };
+		3C525468304DA55200383DEE /* ObservationQualityLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525467304DA55200383DEE /* ObservationQualityLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +46,11 @@
 		3C525452304DA55200383DEE /* ObservationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationRowView.swift; sourceTree = "<group>"; };
 		3C52545A304DA55200383DEE /* ObservationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPage.swift; sourceTree = "<group>"; };
 		3C52545D304DA55200383DEE /* URLSessionAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionAPIClient.swift; sourceTree = "<group>"; };
+		3C52545F304DA55200383DEE /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		3C525461304DA55200383DEE /* ObservationLayoutMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationLayoutMode.swift; sourceTree = "<group>"; };
+		3C525463304DA55200383DEE /* ObservationGridItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationGridItemView.swift; sourceTree = "<group>"; };
+		3C525465304DA55200383DEE /* ObservationPreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPreviewImageView.swift; sourceTree = "<group>"; };
+		3C525467304DA55200383DEE /* ObservationQualityLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationQualityLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +95,7 @@
 			children = (
 				3C525437304DA55200383DEE /* ObservationsView.swift */,
 				3C525451304DA55200383DEE /* ObservationsViewModel.swift */,
-				3C525452304DA55200383DEE /* ObservationRowView.swift */,
+				3C52546A304DA55200383DEE /* Components */,
 			);
 			path = Observations;
 			sourceTree = "<group>";
@@ -151,6 +161,7 @@
 				3C525453304DA55200383DEE /* Models */,
 				3C525454304DA55200383DEE /* Networking */,
 				3C525455304DA55200383DEE /* Repositories */,
+				3C525469304DA55200383DEE /* Settings */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -170,6 +181,26 @@
 				3C525457304DA55200383DEE /* Observations */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		3C525469304DA55200383DEE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3C52545F304DA55200383DEE /* AppSettings.swift */,
+				3C525461304DA55200383DEE /* ObservationLayoutMode.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3C52546A304DA55200383DEE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3C525463304DA55200383DEE /* ObservationGridItemView.swift */,
+				3C525465304DA55200383DEE /* ObservationPreviewImageView.swift */,
+				3C525467304DA55200383DEE /* ObservationQualityLabel.swift */,
+				3C525452304DA55200383DEE /* ObservationRowView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C525445304DA55200383DEE /* APIClient.swift in Sources */,
+				3C525460304DA55200383DEE /* AppSettings.swift in Sources */,
 				3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */,
 				3C525443304DA55200383DEE /* AppDependencies.swift in Sources */,
 				3C525449304DA55200383DEE /* ObservationsViewModel.swift in Sources */,
@@ -254,6 +286,10 @@
 				3C52545C304DA55200383DEE /* ObservationPage.swift in Sources */,
 				3C525446304DA55200383DEE /* ObservationRepository.swift in Sources */,
 				3C52544A304DA55200383DEE /* ObservationRowView.swift in Sources */,
+				3C525464304DA55200383DEE /* ObservationGridItemView.swift in Sources */,
+				3C525466304DA55200383DEE /* ObservationPreviewImageView.swift in Sources */,
+				3C525468304DA55200383DEE /* ObservationQualityLabel.swift in Sources */,
+				3C525462304DA55200383DEE /* ObservationLayoutMode.swift in Sources */,
 				3C52543F304DA55200383DEE /* RootTabView.swift in Sources */,
 				3C525440304DA55200383DEE /* WildlifeAtlasApp.swift in Sources */,
 				3C525441304DA55200383DEE /* ObservationsView.swift in Sources */,

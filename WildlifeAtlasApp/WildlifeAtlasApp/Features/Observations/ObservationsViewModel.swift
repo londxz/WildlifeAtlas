@@ -35,11 +35,25 @@ final class ObservationsViewModel {
     }
 
     private(set) var state: State = .idle
+    private(set) var layoutMode: ObservationLayoutMode
 
     private let observationRepository: any ObservationRepository
+    private let appSettings: AppSettings
 
-    init(observationRepository: any ObservationRepository) {
+    init(
+        observationRepository: any ObservationRepository,
+        appSettings: AppSettings
+    ) {
         self.observationRepository = observationRepository
+        self.appSettings = appSettings
+        layoutMode = appSettings.loadObservationLayoutMode()
+    }
+
+    func selectLayoutMode(_ layoutMode: ObservationLayoutMode) {
+        guard self.layoutMode != layoutMode else { return }
+
+        self.layoutMode = layoutMode
+        appSettings.saveObservationLayoutMode(layoutMode)
     }
 
     func loadIfNeeded() async {

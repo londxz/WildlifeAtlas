@@ -10,6 +10,9 @@ import SwiftUI
 struct ObservationsView: View {
     let viewModel: ObservationsViewModel
 
+    @ScaledMetric(relativeTo: .body)
+    private var minimumGridItemWidth: CGFloat = 160
+
     var body: some View {
         Group {
             switch viewModel.state {
@@ -17,22 +20,7 @@ struct ObservationsView: View {
                 ProgressView("Загружаем наблюдения…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .content(let contentState):
-                List {
-                    ForEach(contentState.observations) { observation in
-                        ObservationRowView(observation: observation)
-                            .task {
-                                await viewModel.loadNextPageIfNeeded(
-                                    currentObservation: observation
-                                )
-                            }
-                    }
-
-                    paginationFooter(
-                        for: contentState.paginationState,
-                        loadingPage: contentState.nextPage
-                    )
-                }
-                .listStyle(.plain)
+                observationsContent(for: contentState)
             case .empty:
                 ContentUnavailableView(
                     "Наблюдений не найдено",
@@ -55,9 +43,85 @@ struct ObservationsView: View {
             }
         }
         .navigationTitle("Наблюдения")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Picker("Режим отображения", selection: layoutModeSelection) {
+                    Label("Список", systemImage: "list.bullet")
+                        .labelStyle(.iconOnly)
+                        .tag(ObservationLayoutMode.list)
+
+                    Label("Плитка", systemImage: "square.grid.2x2")
+                        .labelStyle(.iconOnly)
+                        .tag(ObservationLayoutMode.grid)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 88)
+            }
+        }
         .task {
             await viewModel.loadIfNeeded()
         }
+    }
+
+    @ViewBuilder
+    private func observationsContent(
+        for contentState: ObservationsViewModel.ContentState
+    ) -> some View {
+        switch viewModel.layoutMode {
+        case .list:
+            observationsList(for: contentState)
+        case .grid:
+            observationsGrid(for: contentState)
+        }
+    }
+
+    private func observationsList(
+        for contentState: ObservationsViewModel.ContentState
+    ) -> some View {
+        List {
+            ForEach(contentState.observations) { observation in
+                ObservationRowView(observation: observation)
+                    .task {
+                        await viewModel.loadNextPageIfNeeded(
+                            currentObservation: observation
+                        )
+                    }
+            }
+
+            paginationFooter(
+                for: contentState.paginationState,
+                loadingPage: contentState.nextPage
+            )
+                .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
+    }
+
+    private func observationsGrid(
+        for contentState: ObservationsViewModel.ContentState
+    ) -> some View {
+        ScrollView {
+            LazyVGrid(
+                columns: gridColumns,
+                alignment: .leading,
+                spacing: 12
+            ) {
+                ForEach(contentState.observations) { observation in
+                    ObservationGridItemView(observation: observation)
+                        .task {
+                            await viewModel.loadNextPageIfNeeded(
+                                currentObservation: observation
+                            )
+                        }
+                }
+            }
+
+            paginationFooter(
+                for: contentState.paginationState,
+                loadingPage: contentState.nextPage
+            )
+        }
+        .contentMargins(.horizontal, 12, for: .scrollContent)
     }
 
     @ViewBuilder
@@ -80,7 +144,7 @@ struct ObservationsView: View {
                     .foregroundStyle(.secondary)
                 Spacer()
             }
-            .listRowSeparator(.hidden)
+            .padding(.vertical, 12)
         case .failure(let message):
             VStack(spacing: 8) {
                 Text(message)
@@ -96,8 +160,25 @@ struct ObservationsView: View {
                 .buttonStyle(.bordered)
             }
             .frame(maxWidth: .infinity)
-            .listRowSeparator(.hidden)
+            .padding(.vertical, 12)
         }
+    }
+
+    private var gridColumns: [GridItem] {
+        [
+            GridItem(
+                .adaptive(minimum: minimumGridItemWidth),
+                spacing: 12,
+                alignment: .top
+            )
+        ]
+    }
+
+    private var layoutModeSelection: Binding<ObservationLayoutMode> {
+        Binding(
+            get: { viewModel.layoutMode },
+            set: { viewModel.selectLayoutMode($0) }
+        )
     }
 }
 
@@ -125,7 +206,8 @@ private struct PreviewObservationRepository: ObservationRepository {
     NavigationStack {
         ObservationsView(
             viewModel: ObservationsViewModel(
-                observationRepository: PreviewObservationRepository()
+                observationRepository: PreviewObservationRepository(),
+                appSettings: AppSettings(userDefaults: .standard)
             )
         )
     }
