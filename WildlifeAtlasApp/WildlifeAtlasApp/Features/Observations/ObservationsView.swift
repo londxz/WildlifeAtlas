@@ -16,9 +16,21 @@ struct ObservationsView: View {
             case .idle, .loading:
                 ProgressView("Загружаем наблюдения…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            case .content(let observations):
-                List(observations) { observation in
-                    ObservationRowView(observation: observation)
+            case .content(let contentState):
+                List {
+                    ForEach(contentState.observations) { observation in
+                        ObservationRowView(observation: observation)
+                            .task {
+                                await viewModel.loadNextPageIfNeeded(
+                                    currentObservation: observation
+                                )
+                            }
+                    }
+
+                    paginationFooter(
+                        for: contentState.paginationState,
+                        loadingPage: contentState.nextPage
+                    )
                 }
                 .listStyle(.plain)
             case .empty:
@@ -35,7 +47,7 @@ struct ObservationsView: View {
                 } actions: {
                     Button("Повторить") {
                         Task {
-                            await viewModel.retry()
+                            await viewModel.retryInitialLoad()
                         }
                     }
                     .buttonStyle(.borderedProminent)
@@ -45,6 +57,46 @@ struct ObservationsView: View {
         .navigationTitle("Наблюдения")
         .task {
             await viewModel.loadIfNeeded()
+        }
+    }
+
+    @ViewBuilder
+    private func paginationFooter(
+        for paginationState: ObservationsViewModel.PaginationState,
+        loadingPage: Int?
+    ) -> some View {
+        switch paginationState {
+        case .idle:
+            EmptyView()
+        case .loading:
+            HStack(spacing: 8) {
+                Spacer()
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .frame(width: 20, height: 20)
+                    .id(loadingPage)
+                Text("Загружаем ещё…")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .listRowSeparator(.hidden)
+        case .failure(let message):
+            VStack(spacing: 8) {
+                Text(message)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+
+                Button("Повторить") {
+                    Task {
+                        await viewModel.retryNextPage()
+                    }
+                }
+                .buttonStyle(.bordered)
+            }
+            .frame(maxWidth: .infinity)
+            .listRowSeparator(.hidden)
         }
     }
 }
