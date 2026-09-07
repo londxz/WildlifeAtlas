@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct WildlifeAtlasApp: App {
+    private let dependencies = AppDependencies()
+
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            RootTabView(dependencies: dependencies)
         }
     }
 }

@@ -10,17 +10,37 @@
 		3C52543E304DA55200383DEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C52543C304DA55200383DEE /* Assets.xcassets */; };
 		3C52543F304DA55200383DEE /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525434304DA55200383DEE /* RootTabView.swift */; };
 		3C525440304DA55200383DEE /* WildlifeAtlasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525435304DA55200383DEE /* WildlifeAtlasApp.swift */; };
-		3C525441304DA55200383DEE /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525437304DA55200383DEE /* ExploreView.swift */; };
+		3C525441304DA55200383DEE /* ObservationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525437304DA55200383DEE /* ObservationsView.swift */; };
 		3C525442304DA55200383DEE /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525439304DA55200383DEE /* FavoritesView.swift */; };
+		3C525443304DA55200383DEE /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52544B304DA55200383DEE /* AppDependencies.swift */; };
+		3C525444304DA55200383DEE /* WildlifeObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52544C304DA55200383DEE /* WildlifeObservation.swift */; };
+		3C525445304DA55200383DEE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52544D304DA55200383DEE /* APIClient.swift */; };
+		3C525446304DA55200383DEE /* ObservationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52544E304DA55200383DEE /* ObservationRepository.swift */; };
+		3C525447304DA55200383DEE /* ObservationPageDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52544F304DA55200383DEE /* ObservationPageDTO.swift */; };
+		3C525448304DA55200383DEE /* INaturalistObservationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525450304DA55200383DEE /* INaturalistObservationRepository.swift */; };
+		3C525449304DA55200383DEE /* ObservationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525451304DA55200383DEE /* ObservationsViewModel.swift */; };
+		3C52544A304DA55200383DEE /* ObservationRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525452304DA55200383DEE /* ObservationRowView.swift */; };
+		3C52545C304DA55200383DEE /* ObservationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52545A304DA55200383DEE /* ObservationPage.swift */; };
+		3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52545D304DA55200383DEE /* URLSessionAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3C525410304DA13B00383DEE /* WildlifeAtlasApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildlifeAtlasApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C525434304DA55200383DEE /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		3C525435304DA55200383DEE /* WildlifeAtlasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildlifeAtlasApp.swift; sourceTree = "<group>"; };
-		3C525437304DA55200383DEE /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		3C525437304DA55200383DEE /* ObservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsView.swift; sourceTree = "<group>"; };
 		3C525439304DA55200383DEE /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		3C52543C304DA55200383DEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3C52544B304DA55200383DEE /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
+		3C52544C304DA55200383DEE /* WildlifeObservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildlifeObservation.swift; sourceTree = "<group>"; };
+		3C52544D304DA55200383DEE /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		3C52544E304DA55200383DEE /* ObservationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationRepository.swift; sourceTree = "<group>"; };
+		3C52544F304DA55200383DEE /* ObservationPageDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPageDTO.swift; sourceTree = "<group>"; };
+		3C525450304DA55200383DEE /* INaturalistObservationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INaturalistObservationRepository.swift; sourceTree = "<group>"; };
+		3C525451304DA55200383DEE /* ObservationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsViewModel.swift; sourceTree = "<group>"; };
+		3C525452304DA55200383DEE /* ObservationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationRowView.swift; sourceTree = "<group>"; };
+		3C52545A304DA55200383DEE /* ObservationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPage.swift; sourceTree = "<group>"; };
+		3C52545D304DA55200383DEE /* URLSessionAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionAPIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,18 +73,21 @@
 		3C525436304DA55200383DEE /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3C52544B304DA55200383DEE /* AppDependencies.swift */,
 				3C525434304DA55200383DEE /* RootTabView.swift */,
 				3C525435304DA55200383DEE /* WildlifeAtlasApp.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		3C525438304DA55200383DEE /* Explore */ = {
+		3C525438304DA55200383DEE /* Observations */ = {
 			isa = PBXGroup;
 			children = (
-				3C525437304DA55200383DEE /* ExploreView.swift */,
+				3C525437304DA55200383DEE /* ObservationsView.swift */,
+				3C525451304DA55200383DEE /* ObservationsViewModel.swift */,
+				3C525452304DA55200383DEE /* ObservationRowView.swift */,
 			);
-			path = Explore;
+			path = Observations;
 			sourceTree = "<group>";
 		};
 		3C52543A304DA55200383DEE /* Favorites */ = {
@@ -78,7 +101,7 @@
 		3C52543B304DA55200383DEE /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				3C525438304DA55200383DEE /* Explore */,
+				3C525438304DA55200383DEE /* Observations */,
 				3C52543A304DA55200383DEE /* Favorites */,
 			);
 			path = Features;
@@ -88,10 +111,65 @@
 			isa = PBXGroup;
 			children = (
 				3C525436304DA55200383DEE /* App */,
+				3C525456304DA55200383DEE /* Core */,
+				3C525458304DA55200383DEE /* Data */,
 				3C52543B304DA55200383DEE /* Features */,
 				3C52543C304DA55200383DEE /* Assets.xcassets */,
 			);
 			path = WildlifeAtlasApp;
+			sourceTree = "<group>";
+		};
+		3C525453304DA55200383DEE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3C52545A304DA55200383DEE /* ObservationPage.swift */,
+				3C52544C304DA55200383DEE /* WildlifeObservation.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3C525454304DA55200383DEE /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				3C52544D304DA55200383DEE /* APIClient.swift */,
+				3C52545D304DA55200383DEE /* URLSessionAPIClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		3C525455304DA55200383DEE /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				3C52544E304DA55200383DEE /* ObservationRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		3C525456304DA55200383DEE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3C525453304DA55200383DEE /* Models */,
+				3C525454304DA55200383DEE /* Networking */,
+				3C525455304DA55200383DEE /* Repositories */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		3C525457304DA55200383DEE /* Observations */ = {
+			isa = PBXGroup;
+			children = (
+				3C52544F304DA55200383DEE /* ObservationPageDTO.swift */,
+				3C525450304DA55200383DEE /* INaturalistObservationRepository.swift */,
+			);
+			path = Observations;
+			sourceTree = "<group>";
+		};
+		3C525458304DA55200383DEE /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3C525457304DA55200383DEE /* Observations */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,9 +244,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C525445304DA55200383DEE /* APIClient.swift in Sources */,
+				3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */,
+				3C525443304DA55200383DEE /* AppDependencies.swift in Sources */,
+				3C525449304DA55200383DEE /* ObservationsViewModel.swift in Sources */,
+				3C525448304DA55200383DEE /* INaturalistObservationRepository.swift in Sources */,
+				3C525444304DA55200383DEE /* WildlifeObservation.swift in Sources */,
+				3C525447304DA55200383DEE /* ObservationPageDTO.swift in Sources */,
+				3C52545C304DA55200383DEE /* ObservationPage.swift in Sources */,
+				3C525446304DA55200383DEE /* ObservationRepository.swift in Sources */,
+				3C52544A304DA55200383DEE /* ObservationRowView.swift in Sources */,
 				3C52543F304DA55200383DEE /* RootTabView.swift in Sources */,
 				3C525440304DA55200383DEE /* WildlifeAtlasApp.swift in Sources */,
-				3C525441304DA55200383DEE /* ExploreView.swift in Sources */,
+				3C525441304DA55200383DEE /* ObservationsView.swift in Sources */,
 				3C525442304DA55200383DEE /* FavoritesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,7 +409,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -353,7 +440,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;

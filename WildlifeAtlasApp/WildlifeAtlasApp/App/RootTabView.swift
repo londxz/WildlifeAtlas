@@ -14,11 +14,20 @@ struct RootTabView: View {
     }
 
     @State private var selectedTab: AppTab = .observations
+    @State private var observationsViewModel: ObservationsViewModel
+
+    init(dependencies: AppDependencies) {
+        _observationsViewModel = State(
+            initialValue: ObservationsViewModel(
+                observationRepository: dependencies.observationRepository
+            )
+        )
+    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                ExploreView()
+                ObservationsView(viewModel: observationsViewModel)
             }
             .tabItem {
                 Label("Наблюдения", systemImage: "binoculars")
@@ -36,8 +45,4 @@ struct RootTabView: View {
             .tag(AppTab.favorites)
         }
     }
-}
-
-#Preview {
-    RootTabView()
 }

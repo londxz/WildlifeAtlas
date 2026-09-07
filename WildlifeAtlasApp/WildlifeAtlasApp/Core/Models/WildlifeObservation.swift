@@ -1,0 +1,73 @@
+//
+//  WildlifeObservation.swift
+//  WildlifeAtlasApp
+//
+//  Created by Родион Холодов on 07.09.2026.
+//
+
+import Foundation
+
+struct WildlifeObservation: Identifiable, Hashable, Sendable {
+    let id: Int
+    let commonName: String?
+    let scientificName: String?
+    let observedOn: ObservationDate?
+    let qualityGrade: ObservationQualityGrade?
+    let previewImageURL: URL?
+}
+
+struct ObservationDate: Hashable, Sendable {
+    let year: Int
+    let month: Int
+    let day: Int
+
+    init?(year: Int, month: Int, day: Int) {
+        var calendar = Calendar(identifier: .gregorian)
+
+        if let utc = TimeZone(secondsFromGMT: 0) {
+            calendar.timeZone = utc
+        }
+
+        let components = DateComponents(year: year, month: month, day: day)
+
+        guard let date = calendar.date(from: components) else {
+            return nil
+        }
+
+        let validatedComponents = calendar.dateComponents(
+            [.year, .month, .day],
+            from: date
+        )
+
+        guard
+            validatedComponents.year == year,
+            validatedComponents.month == month,
+            validatedComponents.day == day
+        else {
+            return nil
+        }
+
+        self.year = year
+        self.month = month
+        self.day = day
+    }
+
+    func date(in timeZone: TimeZone) -> Date? {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+
+        return calendar.date(
+            from: DateComponents(
+                year: year,
+                month: month,
+                day: day
+            )
+        )
+    }
+}
+
+enum ObservationQualityGrade: Hashable, Sendable {
+    case research
+    case needsIdentification
+    case casual
+}
