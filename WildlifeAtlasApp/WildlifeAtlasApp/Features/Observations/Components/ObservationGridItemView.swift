@@ -12,16 +12,17 @@ struct ObservationGridItemView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let imageURL = observation.previewImageURL {
-                ObservationImageView(url: imageURL)
-                    .aspectRatio(1, contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
+            Color.clear
+                .aspectRatio(1, contentMode: .fit)
+                .overlay {
+                    ObservationImageView(url: observation.previewImageURL)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
 
             if let commonName = observation.commonName {
                 Text(commonName)
                     .font(.headline)
-                    .lineLimit(2, reservesSpace: true)
+                    .lineLimit(2)
             }
 
             if let scientificName = observation.scientificName {
@@ -29,8 +30,10 @@ struct ObservationGridItemView: View {
                     .font(.subheadline)
                     .italic()
                     .foregroundStyle(.secondary)
-                    .lineLimit(2, reservesSpace: true)
+                    .lineLimit(2)
             }
+
+            Spacer(minLength: 0)
 
             if
                 let observedOn = observation.observedOn,

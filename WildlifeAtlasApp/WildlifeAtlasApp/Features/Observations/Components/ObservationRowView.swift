@@ -12,11 +12,9 @@ struct ObservationRowView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            if let imageURL = observation.previewImageURL {
-                ObservationImageView(url: imageURL)
-                    .frame(width: 88, height: 88)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
+            ObservationImageView(url: observation.previewImageURL)
+                .frame(width: 88, height: 88)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
 
             VStack(alignment: .leading, spacing: 6) {
                 if let commonName = observation.commonName {

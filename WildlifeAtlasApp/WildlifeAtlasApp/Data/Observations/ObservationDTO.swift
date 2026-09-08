@@ -38,8 +38,7 @@ struct ObservationDTO: Decodable, Sendable {
             observedOn: observedOn.flatMap(Self.parseObservedOn),
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
             previewImageURL: photos?
-                .compactMap(\.url)
-                .compactMap(URL.init(string:))
+                .compactMap { $0.imageURL(size: .medium) }
                 .first
         )
     }
@@ -87,14 +86,8 @@ struct ObservationDTO: Decodable, Sendable {
     private var domainPhoto: ObservationPhoto? {
         guard
             let photo = photos?.first,
-            let urlString = photo.url,
-            let previewURL = URL(string: urlString),
-            let largeURL = URL(
-                string: urlString.replacingOccurrences(
-                    of: "/square.",
-                    with: "/large."
-                )
-            )
+            let previewURL = photo.imageURL(size: .medium),
+            let largeURL = photo.imageURL(size: .large)
         else {
             return nil
         }
@@ -198,6 +191,22 @@ private struct PhotoDTO: Decodable, Sendable {
         case attribution
         case licenseCode = "license_code"
     }
+
+    func imageURL(size: INaturalistPhotoSize) -> URL? {
+        guard let url else { return nil }
+
+        return URL(
+            string: url.replacingOccurrences(
+                of: "/square.",
+                with: "/\(size.rawValue)."
+            )
+        )
+    }
+}
+
+private enum INaturalistPhotoSize: String {
+    case medium
+    case large
 }
 
 private struct UserDTO: Decodable, Sendable {

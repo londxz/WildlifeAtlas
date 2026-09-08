@@ -36,7 +36,7 @@ private struct TaxonSearchResultDTO: Decodable, Sendable {
             commonName: Self.nonEmpty(preferredCommonName),
             scientificName: name,
             groupName: Self.nonEmpty(iconicTaxonName),
-            previewImageURL: defaultPhoto?.squareURL.flatMap(URL.init(string:))
+            previewImageURL: defaultPhoto?.smallURL.flatMap(URL.init(string:))
         )
     }
 
@@ -49,9 +49,9 @@ private struct TaxonSearchResultDTO: Decodable, Sendable {
 }
 
 private struct TaxonPhotoDTO: Decodable, Sendable {
-    let squareURL: String?
+    let smallURL: String?
 
     private enum CodingKeys: String, CodingKey {
-        case squareURL = "square_url"
+        case smallURL = "small_url"
     }
 }

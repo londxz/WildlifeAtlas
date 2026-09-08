@@ -8,15 +8,28 @@
 import SwiftUI
 
 struct ObservationImageView: View {
-    let url: URL
+    let url: URL?
     let contentMode: ContentMode
 
-    init(url: URL, contentMode: ContentMode = .fill) {
+    init(url: URL?, contentMode: ContentMode = .fill) {
         self.url = url
         self.contentMode = contentMode
     }
 
     var body: some View {
+        Group {
+            if let url {
+                remoteImage(url: url)
+            } else {
+                placeholder
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.quaternary)
+        .clipped()
+    }
+
+    private func remoteImage(url: URL) -> some View {
         AsyncImage(url: url) { phase in
             switch phase {
             case .empty:
@@ -26,14 +39,16 @@ struct ObservationImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: contentMode)
             case .failure:
-                Image(systemName: "photo")
-                    .foregroundStyle(.secondary)
+                placeholder
             @unknown default:
-                EmptyView()
+                placeholder
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.quaternary)
-        .clipped()
+    }
+
+    private var placeholder: some View {
+        Image(systemName: "photo")
+            .font(.title2)
+            .foregroundStyle(.secondary)
     }
 }
