@@ -43,10 +43,8 @@ struct ObservationDetailsContentView: View {
                     }
                 }
 
-                if let locationName = details.locationName {
-                    ObservationDetailsSection("Location") {
-                        Label(locationName, systemImage: "mappin.and.ellipse")
-                    }
+                if let location = details.location {
+                    locationSection(location)
                 }
 
                 if let author = details.author {
@@ -155,6 +153,29 @@ struct ObservationDetailsContentView: View {
         taxon.rank != nil
             || taxon.iconicTaxonName != nil
             || taxon.wikipediaURL != nil
+    }
+
+    @ViewBuilder
+    private func locationSection(_ location: ObservationLocation) -> some View {
+        ObservationDetailsSection("Location") {
+            switch location {
+            case .approximate(let name):
+                Label(name, systemImage: "mappin.and.ellipse")
+            case .obscured:
+                Label {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Location obscured")
+                            .font(.headline)
+
+                        Text("Exact location is hidden to protect wildlife and sensitive habitats.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                } icon: {
+                    Image(systemName: "lock.fill")
+                }
+            }
+        }
     }
 
     private func rankTitle(_ rank: String) -> String {

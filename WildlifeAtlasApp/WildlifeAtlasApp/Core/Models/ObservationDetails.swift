@@ -13,7 +13,7 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
     let observedOn: ObservationDate?
     let qualityGrade: ObservationQualityGrade?
     let photos: [ObservationPhoto]
-    let locationName: String?
+    let location: ObservationLocation?
     let author: ObservationAuthor?
     let publicURL: URL?
 
@@ -27,6 +27,11 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
             previewImageURL: photos.first?.previewURL
         )
     }
+}
+
+enum ObservationLocation: Hashable, Sendable {
+    case approximate(String)
+    case obscured
 }
 
 struct ObservationTaxon: Hashable, Sendable {

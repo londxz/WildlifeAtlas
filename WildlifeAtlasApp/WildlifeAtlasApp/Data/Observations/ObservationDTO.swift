@@ -52,7 +52,7 @@ struct ObservationDTO: Decodable, Sendable {
             observedOn: observedOn.flatMap(Self.parseObservedOn),
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
             photos: domainPhotos,
-            locationName: publicLocationName,
+            location: domainLocation,
             author: domainAuthor,
             publicURL: uri.flatMap(URL.init(string:))
         )
@@ -104,18 +104,17 @@ struct ObservationDTO: Decodable, Sendable {
         } ?? []
     }
 
-    private var publicLocationName: String? {
+    private var domainLocation: ObservationLocation? {
         let normalizedGeoprivacy = geoprivacy?.lowercased()
 
-        guard
-            obscured != true,
-            normalizedGeoprivacy != "obscured",
-            normalizedGeoprivacy != "private"
-        else {
-            return nil
+        if obscured == true
+            || normalizedGeoprivacy == "obscured"
+            || normalizedGeoprivacy == "private"
+        {
+            return .obscured
         }
 
-        return Self.nonEmpty(placeGuess)
+        return Self.nonEmpty(placeGuess).map(ObservationLocation.approximate)
     }
 
     private var domainAuthor: ObservationAuthor? {

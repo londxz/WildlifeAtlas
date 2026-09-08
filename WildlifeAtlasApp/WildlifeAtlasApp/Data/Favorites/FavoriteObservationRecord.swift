@@ -26,6 +26,7 @@ final class FavoriteObservationRecord {
     var photoLicenseCode: String?
     var additionalPhotosData: Data?
     var locationName: String?
+    var isLocationObscured: Bool?
     var authorName: String?
     var authorLogin: String?
     var publicURLString: String?
@@ -48,7 +49,17 @@ final class FavoriteObservationRecord {
         photoAttribution = primaryPhoto?.attribution
         photoLicenseCode = primaryPhoto?.licenseCode
         additionalPhotosData = Self.encodeAdditionalPhotos(observation.photos)
-        locationName = observation.locationName
+        switch observation.location {
+        case .approximate(let name):
+            locationName = name
+            isLocationObscured = false
+        case .obscured:
+            locationName = nil
+            isLocationObscured = true
+        case nil:
+            locationName = nil
+            isLocationObscured = false
+        }
         authorName = observation.author?.name
         authorLogin = observation.author?.login
         publicURLString = observation.publicURL?.absoluteString
@@ -71,7 +82,17 @@ final class FavoriteObservationRecord {
         photoAttribution = primaryPhoto?.attribution
         photoLicenseCode = primaryPhoto?.licenseCode
         additionalPhotosData = Self.encodeAdditionalPhotos(observation.photos)
-        locationName = observation.locationName
+        switch observation.location {
+        case .approximate(let name):
+            locationName = name
+            isLocationObscured = false
+        case .obscured:
+            locationName = nil
+            isLocationObscured = true
+        case nil:
+            locationName = nil
+            isLocationObscured = false
+        }
         authorName = observation.author?.name
         authorLogin = observation.author?.login
         publicURLString = observation.publicURL?.absoluteString
@@ -86,7 +107,7 @@ final class FavoriteObservationRecord {
                 ObservationQualityGrade.init(rawValue:)
             ),
             photos: photos,
-            locationName: locationName,
+            location: location,
             author: author,
             publicURL: publicURLString.flatMap(URL.init(string:))
         )
@@ -177,6 +198,14 @@ final class FavoriteObservationRecord {
         guard authorName != nil || authorLogin != nil else { return nil }
 
         return ObservationAuthor(name: authorName, login: authorLogin)
+    }
+
+    private var location: ObservationLocation? {
+        if isLocationObscured == true {
+            return .obscured
+        }
+
+        return locationName.map(ObservationLocation.approximate)
     }
 }
 
