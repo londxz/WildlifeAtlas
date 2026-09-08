@@ -14,6 +14,14 @@ Wildlife Atlas — iOS-приложение для просмотра публи
 | --- | --- |
 | <img src="./Screenshots/taxon-search.png" width="320" alt="Автодополнение при поиске таксона"> | <img src="./Screenshots/observation-details.png" width="320" alt="Экран подробной информации о наблюдении"> |
 
+| Галерея фотографий | Локация, автор и лицензия |
+| --- | --- |
+| <img src="./Screenshots/photo-gallery.png" width="320" alt="Галерея фотографий наблюдения"> | <img src="./Screenshots/observation-location-and-author.png" width="320" alt="Скрытая локация, автор и лицензия фотографии"> |
+
+| Пустое избранное | Сохранённые наблюдения |
+| --- | --- |
+| <img src="./Screenshots/favorites-empty.png" width="320" alt="Пустое состояние избранного"> | <img src="./Screenshots/favorites-list.png" width="320" alt="Список избранных наблюдений"> |
+
 ## Решения, принятые в ходе разработки
 
 - Использовать только iNaturalist API v2 из ссылки задания, а не похожий API v1.
