@@ -40,6 +40,12 @@
 		3C525481304DA55200383DEE /* ObservationFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525482304DA55200383DEE /* ObservationFilters.swift */; };
 		3C525483304DA55200383DEE /* TaxonSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525484304DA55200383DEE /* TaxonSummary.swift */; };
 		3C525485304DA55200383DEE /* ObservationFiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525486304DA55200383DEE /* ObservationFiltersView.swift */; };
+		3C525487304DA55200383DEE /* TaxonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525488304DA55200383DEE /* TaxonRepository.swift */; };
+		3C525489304DA55200383DEE /* INaturalistTaxonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52548A304DA55200383DEE /* INaturalistTaxonRepository.swift */; };
+		3C52548B304DA55200383DEE /* TaxonSearchResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52548C304DA55200383DEE /* TaxonSearchResponseDTO.swift */; };
+		3C52548D304DA55200383DEE /* TaxonSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52548E304DA55200383DEE /* TaxonSearchViewModel.swift */; };
+		3C52548F304DA55200383DEE /* TaxonSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525490304DA55200383DEE /* TaxonSearchView.swift */; };
+		3C525491304DA55200383DEE /* TaxonSearchResultRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525492304DA55200383DEE /* TaxonSearchResultRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +83,12 @@
 		3C525482304DA55200383DEE /* ObservationFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationFilters.swift; sourceTree = "<group>"; };
 		3C525484304DA55200383DEE /* TaxonSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSummary.swift; sourceTree = "<group>"; };
 		3C525486304DA55200383DEE /* ObservationFiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationFiltersView.swift; sourceTree = "<group>"; };
+		3C525488304DA55200383DEE /* TaxonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonRepository.swift; sourceTree = "<group>"; };
+		3C52548A304DA55200383DEE /* INaturalistTaxonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = INaturalistTaxonRepository.swift; sourceTree = "<group>"; };
+		3C52548C304DA55200383DEE /* TaxonSearchResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchResponseDTO.swift; sourceTree = "<group>"; };
+		3C52548E304DA55200383DEE /* TaxonSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchViewModel.swift; sourceTree = "<group>"; };
+		3C525490304DA55200383DEE /* TaxonSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchView.swift; sourceTree = "<group>"; };
+		3C525492304DA55200383DEE /* TaxonSearchResultRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchResultRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +134,7 @@
 				3C525437304DA55200383DEE /* ObservationsView.swift */,
 				3C525451304DA55200383DEE /* ObservationsViewModel.swift */,
 				3C525475304DA55200383DEE /* Details */,
+				3C525494304DA55200383DEE /* TaxonSearch */,
 				3C52546A304DA55200383DEE /* Components */,
 			);
 			path = Observations;
@@ -181,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				3C52544E304DA55200383DEE /* ObservationRepository.swift */,
+				3C525488304DA55200383DEE /* TaxonRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -211,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				3C525457304DA55200383DEE /* Observations */,
+				3C525493304DA55200383DEE /* Taxa */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -254,6 +269,33 @@
 				3C525477304DA55200383DEE /* ObservationDetailsContentView.swift */,
 				3C525479304DA55200383DEE /* ObservationDetailsLoadingView.swift */,
 				3C52547C304DA55200383DEE /* ObservationDetailsSection.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3C525493304DA55200383DEE /* Taxa */ = {
+			isa = PBXGroup;
+			children = (
+				3C52548A304DA55200383DEE /* INaturalistTaxonRepository.swift */,
+				3C52548C304DA55200383DEE /* TaxonSearchResponseDTO.swift */,
+			);
+			path = Taxa;
+			sourceTree = "<group>";
+		};
+		3C525494304DA55200383DEE /* TaxonSearch */ = {
+			isa = PBXGroup;
+			children = (
+				3C525490304DA55200383DEE /* TaxonSearchView.swift */,
+				3C52548E304DA55200383DEE /* TaxonSearchViewModel.swift */,
+				3C525495304DA55200383DEE /* Components */,
+			);
+			path = TaxonSearch;
+			sourceTree = "<group>";
+		};
+		3C525495304DA55200383DEE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3C525492304DA55200383DEE /* TaxonSearchResultRowView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -334,6 +376,12 @@
 				3C525460304DA55200383DEE /* AppSettings.swift in Sources */,
 				3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */,
 				3C525443304DA55200383DEE /* AppDependencies.swift in Sources */,
+				3C525489304DA55200383DEE /* INaturalistTaxonRepository.swift in Sources */,
+				3C52548B304DA55200383DEE /* TaxonSearchResponseDTO.swift in Sources */,
+				3C525487304DA55200383DEE /* TaxonRepository.swift in Sources */,
+				3C52548D304DA55200383DEE /* TaxonSearchViewModel.swift in Sources */,
+				3C52548F304DA55200383DEE /* TaxonSearchView.swift in Sources */,
+				3C525491304DA55200383DEE /* TaxonSearchResultRowView.swift in Sources */,
 				3C525449304DA55200383DEE /* ObservationsViewModel.swift in Sources */,
 				3C525448304DA55200383DEE /* INaturalistObservationRepository.swift in Sources */,
 				3C52546B304DA55200383DEE /* ObservationDetails.swift in Sources */,

@@ -5,47 +5,63 @@
 //  Created by Родион Холодов on 06.09.2026.
 //
 
+import Foundation
 import SwiftUI
 
 struct ObservationsView: View {
     let viewModel: ObservationsViewModel
+    let taxonSearchViewModel: TaxonSearchViewModel
 
     @ScaledMetric(relativeTo: .body)
     private var minimumGridItemWidth: CGFloat = 160
+    @FocusState private var isTaxonSearchFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
+            taxonSearchView
+                .zIndex(1)
+                .layoutPriority(taxonSearchViewModel.hasQuery ? 1 : 0)
             filtersView
             Divider()
 
-            Group {
-                switch viewModel.state {
-                case .idle, .loading:
-                    ObservationsLoadingView(
-                        layoutMode: viewModel.layoutMode,
-                        gridColumns: gridColumns
-                    )
-                case .content(let contentState):
-                    observationsContent(for: contentState)
-                case .empty:
-                    ContentUnavailableView(
-                        "Наблюдений не найдено",
-                        systemImage: "binoculars",
-                        description: Text("Попробуйте изменить фильтры.")
-                    )
-                case .failure(let message):
-                    ContentUnavailableView {
-                        Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
-                    } description: {
-                        Text(message)
-                    } actions: {
-                        Button("Повторить") {
-                            Task {
-                                await viewModel.retryInitialLoad()
+            ZStack {
+                Group {
+                    switch viewModel.state {
+                    case .idle, .loading:
+                        ObservationsLoadingView(
+                            layoutMode: viewModel.layoutMode,
+                            gridColumns: gridColumns
+                        )
+                    case .content(let contentState):
+                        observationsContent(for: contentState)
+                    case .empty:
+                        ContentUnavailableView(
+                            "Наблюдений не найдено",
+                            systemImage: "binoculars",
+                            description: Text("Попробуйте изменить фильтры.")
+                        )
+                    case .failure(let message):
+                        ContentUnavailableView {
+                            Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
+                        } description: {
+                            Text(message)
+                        } actions: {
+                            Button("Повторить") {
+                                Task {
+                                    await viewModel.retryInitialLoad()
+                                }
                             }
+                            .buttonStyle(.borderedProminent)
                         }
-                        .buttonStyle(.borderedProminent)
                     }
+                }
+
+                if taxonSearchViewModel.hasQuery {
+                    Color.black.opacity(0.45)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            dismissTaxonSearch()
+                        }
                 }
             }
         }
@@ -70,13 +86,21 @@ struct ObservationsView: View {
         }
     }
 
+    private var taxonSearchView: some View {
+        TaxonSearchView(
+            viewModel: taxonSearchViewModel,
+            searchFieldFocus: $isTaxonSearchFocused,
+            onSelectTaxon: { taxon in
+                selectTaxon(taxon)
+            }
+        )
+    }
+
     private var filtersView: some View {
         ObservationFiltersView(
             filters: viewModel.filters,
             onSelectTaxon: { taxon in
-                Task {
-                    await viewModel.selectTaxon(taxon)
-                }
+                selectTaxon(taxon)
             },
             onSelectQuality: { quality in
                 Task {
@@ -89,6 +113,17 @@ struct ObservationsView: View {
                 }
             }
         )
+    }
+
+    private func dismissTaxonSearch() {
+        isTaxonSearchFocused = false
+        taxonSearchViewModel.clearQuery()
+    }
+
+    private func selectTaxon(_ taxon: TaxonSummary?) {
+        Task {
+            await viewModel.selectTaxon(taxon)
+        }
     }
 
     @ViewBuilder
@@ -245,12 +280,24 @@ private struct PreviewObservationRepository: ObservationRepository {
     }
 }
 
+private struct PreviewTaxonRepository: TaxonRepository {
+    func searchTaxa(
+        query: String,
+        limit: Int
+    ) async throws -> [TaxonSummary] {
+        []
+    }
+}
+
 #Preview {
     NavigationStack {
         ObservationsView(
             viewModel: ObservationsViewModel(
                 observationRepository: PreviewObservationRepository(),
                 appSettings: AppSettings(userDefaults: .standard)
+            ),
+            taxonSearchViewModel: TaxonSearchViewModel(
+                taxonRepository: PreviewTaxonRepository()
             )
         )
     }

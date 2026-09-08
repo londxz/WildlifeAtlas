@@ -9,6 +9,7 @@ import Foundation
 
 struct AppDependencies {
     let observationRepository: any ObservationRepository
+    let taxonRepository: any TaxonRepository
     let appSettings: AppSettings
 
     init() {
@@ -19,20 +20,26 @@ struct AppDependencies {
         let observationRepository = INaturalistObservationRepository(
             apiClient: apiClient
         )
+        let taxonRepository = INaturalistTaxonRepository(
+            apiClient: apiClient
+        )
 
         let appSettings = AppSettings(userDefaults: .standard)
 
         self.init(
             observationRepository: observationRepository,
+            taxonRepository: taxonRepository,
             appSettings: appSettings
         )
     }
 
     init(
         observationRepository: any ObservationRepository,
+        taxonRepository: any TaxonRepository,
         appSettings: AppSettings
     ) {
         self.observationRepository = observationRepository
+        self.taxonRepository = taxonRepository
         self.appSettings = appSettings
     }
 
