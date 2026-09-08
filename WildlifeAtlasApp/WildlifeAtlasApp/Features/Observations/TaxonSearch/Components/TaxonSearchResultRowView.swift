@@ -63,31 +63,31 @@ struct TaxonSearchResultRowView: View {
     private var groupTitle: String? {
         switch taxon.groupName {
         case "Animalia":
-            "Животные"
+            "Animals"
         case "Plantae":
-            "Растения"
+            "Plants"
         case "Fungi":
-            "Грибы"
+            "Fungi"
         case "Aves":
-            "Птицы"
+            "Birds"
         case "Mammalia":
-            "Млекопитающие"
+            "Mammals"
         case "Reptilia":
-            "Рептилии"
+            "Reptiles"
         case "Amphibia":
-            "Земноводные"
+            "Amphibians"
         case "Actinopterygii":
-            "Рыбы"
+            "Ray-finned fishes"
         case "Mollusca":
-            "Моллюски"
+            "Mollusks"
         case "Arachnida":
-            "Паукообразные"
+            "Arachnids"
         case "Insecta":
-            "Насекомые"
+            "Insects"
         case "Protozoa":
-            "Простейшие"
+            "Protozoans"
         case "Chromista":
-            "Хромисты"
+            "Chromists"
         case .some(let groupName):
             groupName
         case .none:

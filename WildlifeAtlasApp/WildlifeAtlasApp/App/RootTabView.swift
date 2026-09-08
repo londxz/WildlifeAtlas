@@ -61,7 +61,7 @@ struct RootTabView: View {
                     }
             }
             .tabItem {
-                Label("Наблюдения", systemImage: "binoculars")
+                Label("Observations", systemImage: "binoculars")
             }
             .tag(AppTab.observations)
 
@@ -81,7 +81,7 @@ struct RootTabView: View {
                 }
             }
             .tabItem {
-                Label("Избранное", systemImage: "heart")
+                Label("Favorites", systemImage: "heart")
             }
             .tag(AppTab.favorites)
         }

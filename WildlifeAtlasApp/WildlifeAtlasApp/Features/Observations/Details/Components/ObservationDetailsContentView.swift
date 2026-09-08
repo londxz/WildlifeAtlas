@@ -26,31 +26,31 @@ struct ObservationDetailsContentView: View {
                     let taxon = details.taxon,
                     hasAdditionalInformation(taxon)
                 {
-                    ObservationDetailsSection("Таксон") {
+                    ObservationDetailsSection("Taxon") {
                         if let rank = taxon.rank {
-                            LabeledContent("Ранг", value: rankTitle(rank))
+                            LabeledContent("Rank", value: rankTitle(rank))
                         }
 
                         if let iconicTaxonName = taxon.iconicTaxonName {
-                            LabeledContent("Группа", value: iconicTaxonName)
+                            LabeledContent("Group", value: iconicTaxonName)
                         }
 
                         if let wikipediaURL = taxon.wikipediaURL {
                             Link(destination: wikipediaURL) {
-                                Label("Открыть в Wikipedia", systemImage: "safari")
+                                Label("Open in Wikipedia", systemImage: "safari")
                             }
                         }
                     }
                 }
 
                 if let locationName = details.locationName {
-                    ObservationDetailsSection("Место наблюдения") {
+                    ObservationDetailsSection("Location") {
                         Label(locationName, systemImage: "mappin.and.ellipse")
                     }
                 }
 
                 if let author = details.author {
-                    ObservationDetailsSection("Автор наблюдения") {
+                    ObservationDetailsSection("Observer") {
                         if let name = author.name {
                             Text(name)
                         }
@@ -69,13 +69,13 @@ struct ObservationDetailsContentView: View {
                    selectedPhoto.attribution != nil
                     || selectedPhoto.licenseCode != nil
                 {
-                    ObservationDetailsSection("Фотография") {
+                    ObservationDetailsSection("Photo") {
                         if let attribution = selectedPhoto.attribution {
                             Text(attribution)
                         }
 
                         if let licenseCode = selectedPhoto.licenseCode {
-                            LabeledContent("Лицензия", value: licenseCode)
+                            LabeledContent("License", value: licenseCode)
                         }
                     }
                 }
@@ -160,19 +160,19 @@ struct ObservationDetailsContentView: View {
     private func rankTitle(_ rank: String) -> String {
         switch rank {
         case "kingdom":
-            "Царство"
+            "Kingdom"
         case "phylum":
-            "Тип"
+            "Phylum"
         case "class":
-            "Класс"
+            "Class"
         case "order":
-            "Отряд"
+            "Order"
         case "family":
-            "Семейство"
+            "Family"
         case "genus":
-            "Род"
+            "Genus"
         case "species":
-            "Вид"
+            "Species"
         default:
             rank
         }

@@ -79,14 +79,14 @@ final class ObservationDetailsViewModel {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
-                return "Нет подключения к интернету. Проверьте сеть."
+                return "No internet connection. Check your network."
             case .timedOut:
-                return "Сервер не ответил вовремя."
+                return "The server took too long to respond."
             default:
-                return "Не удалось связаться с сервером."
+                return "Unable to reach the server."
             }
         }
 
-        return "Не удалось загрузить подробности."
+        return "Unable to load observation details."
     }
 }

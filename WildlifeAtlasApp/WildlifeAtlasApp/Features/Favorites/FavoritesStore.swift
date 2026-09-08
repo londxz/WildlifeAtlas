@@ -58,7 +58,7 @@ final class FavoritesStore {
         do {
             try refreshFavorites()
         } catch {
-            state = .failure("Не удалось загрузить избранное.")
+            state = .failure("Unable to load favorites.")
         }
     }
 

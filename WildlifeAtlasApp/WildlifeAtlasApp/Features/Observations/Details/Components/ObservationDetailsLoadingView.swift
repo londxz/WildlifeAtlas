@@ -16,30 +16,30 @@ struct ObservationDetailsLoadingView: View {
                     .aspectRatio(4 / 3, contentMode: .fit)
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Общепринятое название")
+                    Text("Common name")
                         .font(.title2.bold())
 
-                    Text("Научное название")
+                    Text("Scientific name")
                         .font(.headline)
                         .italic()
 
-                    Text("Качество наблюдения")
+                    Text("Quality grade")
                         .font(.caption)
 
-                    Text("Дата наблюдения")
+                    Text("Observation date")
                 }
 
-                ObservationDetailsSection("Таксон") {
-                    Text("Ранг таксона")
-                    Text("Группа живых организмов")
+                ObservationDetailsSection("Taxon") {
+                    Text("Taxon rank")
+                    Text("Taxonomic group")
                 }
 
-                ObservationDetailsSection("Место наблюдения") {
-                    Text("Приблизительное место")
+                ObservationDetailsSection("Location") {
+                    Text("Approximate location")
                 }
 
-                ObservationDetailsSection("Автор наблюдения") {
-                    Text("Имя автора")
+                ObservationDetailsSection("Observer") {
+                    Text("Observer name")
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

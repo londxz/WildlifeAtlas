@@ -19,11 +19,11 @@ struct ObservationQualityLabel: View {
     private var title: String {
         switch qualityGrade {
         case .research:
-            "Исследовательское"
+            "Research grade"
         case .needsIdentification:
-            "Требуется определение"
+            "Needs ID"
         case .casual:
-            "Обычное"
+            "Casual"
         }
     }
 

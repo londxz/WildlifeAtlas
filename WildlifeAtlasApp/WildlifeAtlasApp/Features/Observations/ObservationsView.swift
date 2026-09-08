@@ -37,17 +37,17 @@ struct ObservationsView: View {
                         observationsContent(for: contentState)
                     case .empty:
                         ContentUnavailableView(
-                            "Наблюдений не найдено",
+                            "No observations found",
                             systemImage: "binoculars",
-                            description: Text("Попробуйте изменить фильтры.")
+                            description: Text("Try changing the filters.")
                         )
                     case .failure(let message):
                         ContentUnavailableView {
-                            Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
+                            Label("Unable to load", systemImage: "wifi.exclamationmark")
                         } description: {
                             Text(message)
                         } actions: {
-                            Button("Повторить") {
+                            Button("Retry") {
                                 Task {
                                     await viewModel.retryInitialLoad()
                                 }
@@ -66,15 +66,15 @@ struct ObservationsView: View {
                 }
             }
         }
-        .navigationTitle("Наблюдения")
+        .navigationTitle("Observations")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Picker("Режим отображения", selection: layoutModeSelection) {
-                    Label("Список", systemImage: "list.bullet")
+                Picker("Layout", selection: layoutModeSelection) {
+                    Label("List", systemImage: "list.bullet")
                         .labelStyle(.iconOnly)
                         .tag(ObservationLayoutMode.list)
 
-                    Label("Плитка", systemImage: "square.grid.2x2")
+                    Label("Grid", systemImage: "square.grid.2x2")
                         .labelStyle(.iconOnly)
                         .tag(ObservationLayoutMode.grid)
                 }
@@ -225,7 +225,7 @@ struct ObservationsView: View {
                     .progressViewStyle(.circular)
                     .frame(width: 20, height: 20)
                     .id(loadingPage)
-                Text("Загружаем ещё…")
+                Text("Loading more observations…")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -238,7 +238,7 @@ struct ObservationsView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
 
-                Button("Повторить") {
+                Button("Retry") {
                     Task {
                         await viewModel.retryNextPage()
                     }
@@ -280,7 +280,7 @@ private struct PreviewObservationRepository: ObservationRepository {
             observations: [
                 ObservationSummary(
                     id: observationID,
-                    commonName: "Рыжая лисица",
+                    commonName: "Red Fox",
                     scientificName: "Vulpes vulpes",
                     observedOn: ObservationDate(year: 2026, month: 9, day: 6),
                     qualityGrade: .research,

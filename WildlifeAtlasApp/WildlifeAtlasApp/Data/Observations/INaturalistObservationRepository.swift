@@ -52,6 +52,7 @@ struct INaturalistObservationRepository: ObservationRepository {
             URLQueryItem(name: "page", value: String(page)),
             URLQueryItem(name: "per_page", value: String(perPage)),
             URLQueryItem(name: "captive", value: "false"),
+            URLQueryItem(name: "locale", value: "en"),
             URLQueryItem(name: "order_by", value: "observed_on"),
             URLQueryItem(name: "fields", value: Self.observationSummaryFields)
         ]
@@ -89,6 +90,7 @@ struct INaturalistObservationRepository: ObservationRepository {
             path: "observations/\(id.uuidString.lowercased())",
             queryItems: [
                 URLQueryItem(name: "captive", value: "false"),
+                URLQueryItem(name: "locale", value: "en"),
                 URLQueryItem(name: "fields", value: Self.observationDetailsFields)
             ]
         )

@@ -125,14 +125,14 @@ final class TaxonSearchViewModel {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
-                return "Нет подключения к интернету."
+                return "No internet connection."
             case .timedOut:
-                return "Сервер не ответил вовремя."
+                return "The server took too long to respond."
             default:
-                return "Не удалось выполнить поиск."
+                return "Unable to search taxa."
             }
         }
 
-        return "Не удалось выполнить поиск."
+        return "Unable to search taxa."
     }
 }

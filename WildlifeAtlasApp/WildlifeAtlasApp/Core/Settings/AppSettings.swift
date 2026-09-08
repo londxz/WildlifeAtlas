@@ -10,7 +10,7 @@ import Foundation
 struct AppSettings {
     private enum Key {
         static let observationLayoutMode = "observations.layoutMode"
-        static let recentTaxa = "taxonSearch.recentTaxa"
+        static let recentTaxa = "taxonSearch.recentTaxa.en"
     }
 
     private let userDefaults: UserDefaults

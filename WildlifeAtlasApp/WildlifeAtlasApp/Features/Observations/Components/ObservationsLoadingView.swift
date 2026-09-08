@@ -56,17 +56,17 @@ private struct ObservationRowSkeleton: View {
                 .frame(width: 88, height: 88)
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("Общепринятое название")
+                Text("Common name")
                     .font(.headline)
 
-                Text("Научное название")
+                Text("Scientific name")
                     .font(.subheadline)
                     .italic()
 
-                Label("Дата наблюдения", systemImage: "calendar")
+                Label("Observation date", systemImage: "calendar")
                     .font(.caption)
 
-                Label("Качество наблюдения", systemImage: "circle.fill")
+                Label("Quality grade", systemImage: "circle.fill")
                     .font(.caption)
             }
 
@@ -85,19 +85,19 @@ private struct ObservationGridItemSkeleton: View {
                 .fill(.quaternary)
                 .aspectRatio(1, contentMode: .fit)
 
-            Text("Общепринятое название")
+            Text("Common name")
                 .font(.headline)
                 .lineLimit(2, reservesSpace: true)
 
-            Text("Научное название")
+            Text("Scientific name")
                 .font(.subheadline)
                 .italic()
                 .lineLimit(2, reservesSpace: true)
 
-            Label("Дата наблюдения", systemImage: "calendar")
+            Label("Observation date", systemImage: "calendar")
                 .font(.caption)
 
-            Label("Качество наблюдения", systemImage: "circle.fill")
+            Label("Quality grade", systemImage: "circle.fill")
                 .font(.caption)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

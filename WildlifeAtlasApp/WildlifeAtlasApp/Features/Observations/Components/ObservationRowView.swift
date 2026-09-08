@@ -33,6 +33,8 @@ struct ObservationRowView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Spacer(minLength: 0)
+
                 if
                     let observedOn = observation.observedOn,
                     let date = observedOn.date(in: .current)
@@ -50,6 +52,7 @@ struct ObservationRowView: View {
                     ObservationQualityLabel(qualityGrade: qualityGrade)
                 }
             }
+            .frame(minHeight: 88, alignment: .top)
 
             Spacer(minLength: 0)
         }

@@ -14,6 +14,7 @@ struct WildlifeAtlasApp: App {
     var body: some Scene {
         WindowGroup {
             RootTabView(dependencies: dependencies)
+                .environment(\.locale, Locale(identifier: "en_US"))
         }
     }
 }

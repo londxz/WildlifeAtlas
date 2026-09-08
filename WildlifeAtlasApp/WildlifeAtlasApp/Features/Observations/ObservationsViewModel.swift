@@ -264,25 +264,25 @@ final class ObservationsViewModel {
         if let urlError = error as? URLError {
             switch urlError.code {
             case .notConnectedToInternet, .networkConnectionLost:
-                return "Нет подключения к интернету. Проверьте сеть и попробуйте ещё раз."
+                return "No internet connection. Check your network and try again."
             case .timedOut:
-                return "Сервер не ответил вовремя. Попробуйте ещё раз."
+                return "The server took too long to respond. Try again."
             default:
-                return "Не удалось связаться с сервером. Попробуйте ещё раз."
+                return "Unable to reach the server. Try again."
             }
         }
 
         if let apiError = error as? APIClientError {
             switch apiError {
             case .invalidRequestURL:
-                return "Не удалось сформировать запрос. Попробуйте ещё раз."
+                return "Unable to create the request. Try again."
             case .nonHTTPResponse:
-                return "Сервер вернул некорректный ответ. Попробуйте ещё раз."
+                return "The server returned an invalid response. Try again."
             case .unsuccessfulStatusCode:
-                return "Не удалось загрузить данные с сервера. Попробуйте ещё раз."
+                return "Unable to load data from the server. Try again."
             }
         }
 
-        return "Не удалось загрузить наблюдения. Попробуйте ещё раз."
+        return "Unable to load observations. Try again."
     }
 }

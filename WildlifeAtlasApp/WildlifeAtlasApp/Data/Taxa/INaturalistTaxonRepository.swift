@@ -31,7 +31,7 @@ struct INaturalistTaxonRepository: TaxonRepository {
             queryItems: [
                 URLQueryItem(name: "q", value: query),
                 URLQueryItem(name: "per_page", value: String(limit)),
-                URLQueryItem(name: "locale", value: "ru"),
+                URLQueryItem(name: "locale", value: "en"),
                 URLQueryItem(name: "fields", value: Self.searchResultFields)
             ]
         )

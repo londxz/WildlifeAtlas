@@ -11,17 +11,17 @@ struct ObservationFiltersView: View {
     private static let basicTaxa = [
         TaxonSummary(
             id: 1,
-            commonName: "Животные",
+            commonName: "Animals",
             scientificName: "Animalia"
         ),
         TaxonSummary(
             id: 47126,
-            commonName: "Растения",
+            commonName: "Plants",
             scientificName: "Plantae"
         ),
         TaxonSummary(
             id: 47170,
-            commonName: "Грибы",
+            commonName: "Fungi",
             scientificName: "Fungi"
         )
     ]
@@ -66,7 +66,7 @@ struct ObservationFiltersView: View {
                 isTaxonFilterPresented = true
             } label: {
                 FilterChipLabel(
-                    title: "Все наблюдения",
+                    title: "All wildlife",
                     systemImage: "chevron.down",
                     isExpanded: isTaxonFilterPresented
                 )
@@ -127,7 +127,7 @@ struct ObservationFiltersView: View {
 
     private var taxonFilterOptions: some View {
         FilterOptionsView {
-            filterOption("Все наблюдения", isSelected: true) {
+            filterOption("All wildlife", isSelected: true) {
                 isTaxonFilterPresented = false
                 onSelectTaxon(nil)
             }
@@ -149,7 +149,7 @@ struct ObservationFiltersView: View {
     private var qualityFilterOptions: some View {
         FilterOptionsView {
             filterOption(
-                "Любое качество",
+                "Any grade",
                 isSelected: filters.quality == .any
             ) {
                 isQualityFilterPresented = false
@@ -159,7 +159,7 @@ struct ObservationFiltersView: View {
             Divider()
 
             filterOption(
-                "Исследовательское",
+                "Research grade",
                 isSelected: filters.quality == .research
             ) {
                 isQualityFilterPresented = false
@@ -171,7 +171,7 @@ struct ObservationFiltersView: View {
     private var dateOrderFilterOptions: some View {
         FilterOptionsView {
             filterOption(
-                "Сначала новые",
+                "Newest",
                 isSelected: filters.dateOrder == .newestFirst
             ) {
                 isDateOrderFilterPresented = false
@@ -181,7 +181,7 @@ struct ObservationFiltersView: View {
             Divider()
 
             filterOption(
-                "Сначала старые",
+                "Oldest",
                 isSelected: filters.dateOrder == .oldestFirst
             ) {
                 isDateOrderFilterPresented = false
@@ -215,18 +215,18 @@ struct ObservationFiltersView: View {
     private var qualityFilterTitle: String {
         switch filters.quality {
         case .any:
-            "Любое качество"
+            "Any grade"
         case .research:
-            "Исследовательское"
+            "Research grade"
         }
     }
 
     private var dateOrderTitle: String {
         switch filters.dateOrder {
         case .newestFirst:
-            "Сначала новые"
+            "Newest"
         case .oldestFirst:
-            "Сначала старые"
+            "Oldest"
         }
     }
 }

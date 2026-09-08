@@ -34,7 +34,7 @@ struct TaxonSearchView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
 
-            TextField("Поиск таксона", text: $viewModel.query)
+            TextField("Search species", text: $viewModel.query)
                 .focused(searchFieldFocus)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -84,11 +84,11 @@ struct TaxonSearchView: View {
         if viewModel.hasQuery {
             switch viewModel.state {
             case .idle:
-                searchMessage("Введите минимум два символа")
+                searchMessage("Enter at least two characters")
             case .loading:
                 HStack(spacing: 10) {
                     ProgressView()
-                    Text("Ищем таксоны…")
+                    Text("Searching taxa…")
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity)
@@ -96,13 +96,13 @@ struct TaxonSearchView: View {
             case .content(let taxa):
                 taxaList(taxa)
             case .empty:
-                searchMessage("Подходящих таксонов не найдено")
+                searchMessage("No matching taxa found")
             case .failure(let message):
                 VStack(spacing: 12) {
                     Text(message)
                         .foregroundStyle(.secondary)
 
-                    Button("Повторить") {
+                    Button("Retry") {
                         viewModel.retry()
                     }
                     .buttonStyle(.bordered)
@@ -174,7 +174,7 @@ struct TaxonSearchView: View {
 
     private var suggestionsTitle: String {
         viewModel.hasQuery
-            ? "Выберите таксон для фильтрации наблюдений"
-            : "Недавно выбранные таксоны"
+            ? "Choose a species to filter observations"
+            : "Recently selected taxa"
     }
 }

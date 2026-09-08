@@ -36,16 +36,16 @@ struct ObservationDetailsView: View {
                 )
             case .empty:
                 ContentUnavailableView(
-                    "Наблюдение не найдено",
+                    "Observation not found",
                     systemImage: "binoculars"
                 )
             case .failure(let message):
                 ContentUnavailableView {
-                    Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
+                    Label("Unable to load", systemImage: "wifi.exclamationmark")
                 } description: {
                     Text(message)
                 } actions: {
-                    Button("Повторить") {
+                    Button("Retry") {
                         Task {
                             await viewModel.retry()
                         }
@@ -54,18 +54,18 @@ struct ObservationDetailsView: View {
                 }
             }
         }
-        .navigationTitle("Наблюдение")
+        .navigationTitle("Observation")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             detailsToolbarItems
         }
         .alert(
-            "Не удалось изменить избранное",
+            "Unable to update favorites",
             isPresented: $isFavoriteErrorPresented
         ) {
-            Button("ОК", role: .cancel) {}
+            Button("OK", role: .cancel) {}
         } message: {
-            Text("Попробуйте ещё раз.")
+            Text("Try again.")
         }
         .task {
             await viewModel.loadIfNeeded()
@@ -80,7 +80,7 @@ struct ObservationDetailsView: View {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if let publicURL = details.publicURL {
                     ShareLink(item: publicURL) {
-                        Label("Поделиться", systemImage: "square.and.arrow.up")
+                        Label("Share", systemImage: "square.and.arrow.up")
                             .labelStyle(.iconOnly)
                     }
                 }
@@ -90,8 +90,8 @@ struct ObservationDetailsView: View {
                 } label: {
                     Label(
                         isFavorite
-                            ? "Удалить из избранного"
-                            : "Добавить в избранное",
+                            ? "Remove from favorites"
+                            : "Add to favorites",
                         systemImage: isFavorite ? "heart.fill" : "heart"
                     )
                     .labelStyle(.iconOnly)

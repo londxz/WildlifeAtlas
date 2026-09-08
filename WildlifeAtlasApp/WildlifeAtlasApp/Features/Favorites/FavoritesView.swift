@@ -25,14 +25,14 @@ struct FavoritesView: View {
                 failureState(message: message)
             }
         }
-        .navigationTitle("Избранное")
+        .navigationTitle("Favorites")
         .alert(
-            "Не удалось удалить из избранного",
+            "Unable to remove favorite",
             isPresented: $isRemoveFavoriteErrorPresented
         ) {
-            Button("ОК", role: .cancel) {}
+            Button("OK", role: .cancel) {}
         } message: {
-            Text("Попробуйте ещё раз.")
+            Text("Try again.")
         }
     }
 
@@ -57,22 +57,22 @@ struct FavoritesView: View {
 
     private var emptyState: some View {
         ContentUnavailableView {
-            Label("Нет избранных", systemImage: "heart")
+            Label("No favorites", systemImage: "heart")
         } description: {
-            Text("Добавляйте наблюдения с помощью кнопки сердца.")
+            Text("Use the heart button to save observations.")
         } actions: {
-            Button("Смотреть наблюдения", action: onBrowseObservations)
+            Button("Browse observations", action: onBrowseObservations)
                 .buttonStyle(.borderedProminent)
         }
     }
 
     private func failureState(message: String) -> some View {
         ContentUnavailableView {
-            Label("Не удалось загрузить", systemImage: "exclamationmark.triangle")
+            Label("Unable to load", systemImage: "exclamationmark.triangle")
         } description: {
             Text(message)
         } actions: {
-            Button("Повторить", action: favoritesStore.retry)
+            Button("Retry", action: favoritesStore.retry)
                 .buttonStyle(.borderedProminent)
         }
     }
