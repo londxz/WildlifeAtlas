@@ -17,8 +17,10 @@ struct ObservationsView: View {
         Group {
             switch viewModel.state {
             case .idle, .loading:
-                ProgressView("Загружаем наблюдения…")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ObservationsLoadingView(
+                    layoutMode: viewModel.layoutMode,
+                    gridColumns: gridColumns
+                )
             case .content(let contentState):
                 observationsContent(for: contentState)
             case .empty:

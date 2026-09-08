@@ -35,6 +35,8 @@
 		3C525476304DA55200383DEE /* ObservationDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525477304DA55200383DEE /* ObservationDetailsContentView.swift */; };
 		3C525478304DA55200383DEE /* ObservationDetailsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525479304DA55200383DEE /* ObservationDetailsLoadingView.swift */; };
 		3C52547B304DA55200383DEE /* ObservationDetailsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52547C304DA55200383DEE /* ObservationDetailsSection.swift */; };
+		3C52547D304DA55200383DEE /* ObservationsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52547E304DA55200383DEE /* ObservationsLoadingView.swift */; };
+		3C52547F304DA55200383DEE /* SkeletonShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525480304DA55200383DEE /* SkeletonShimmerModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		3C525477304DA55200383DEE /* ObservationDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationDetailsContentView.swift; sourceTree = "<group>"; };
 		3C525479304DA55200383DEE /* ObservationDetailsLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationDetailsLoadingView.swift; sourceTree = "<group>"; };
 		3C52547C304DA55200383DEE /* ObservationDetailsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationDetailsSection.swift; sourceTree = "<group>"; };
+		3C52547E304DA55200383DEE /* ObservationsLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsLoadingView.swift; sourceTree = "<group>"; };
+		3C525480304DA55200383DEE /* SkeletonShimmerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonShimmerModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +115,8 @@
 			children = (
 				3C525437304DA55200383DEE /* ObservationsView.swift */,
 				3C525451304DA55200383DEE /* ObservationsViewModel.swift */,
-				3C52546A304DA55200383DEE /* Components */,
 				3C525475304DA55200383DEE /* Details */,
+				3C52546A304DA55200383DEE /* Components */,
 			);
 			path = Observations;
 			sourceTree = "<group>";
@@ -219,6 +223,8 @@
 				3C525465304DA55200383DEE /* ObservationImageView.swift */,
 				3C525467304DA55200383DEE /* ObservationQualityLabel.swift */,
 				3C525452304DA55200383DEE /* ObservationRowView.swift */,
+				3C52547E304DA55200383DEE /* ObservationsLoadingView.swift */,
+				3C525480304DA55200383DEE /* SkeletonShimmerModifier.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -328,6 +334,8 @@
 				3C525476304DA55200383DEE /* ObservationDetailsContentView.swift in Sources */,
 				3C525478304DA55200383DEE /* ObservationDetailsLoadingView.swift in Sources */,
 				3C52547B304DA55200383DEE /* ObservationDetailsSection.swift in Sources */,
+				3C52547D304DA55200383DEE /* ObservationsLoadingView.swift in Sources */,
+				3C52547F304DA55200383DEE /* SkeletonShimmerModifier.swift in Sources */,
 				3C52546D304DA55200383DEE /* ObservationDTO.swift in Sources */,
 				3C525444304DA55200383DEE /* ObservationSummary.swift in Sources */,
 				3C525447304DA55200383DEE /* ObservationPageDTO.swift in Sources */,
