@@ -17,7 +17,7 @@ struct ObservationRowView: View {
                 url: observation.previewImageURL,
                 imagePipeline: imagePipeline
             )
-                .frame(width: 88, height: 88)
+                .frame(width: 108, height: 108)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
             VStack(alignment: .leading, spacing: 6) {
@@ -48,11 +48,18 @@ struct ObservationRowView: View {
                     .foregroundStyle(.secondary)
                 }
 
+                if let locationName = observation.locationName {
+                    Label(locationName, systemImage: "mappin.and.ellipse")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+
                 if let qualityGrade = observation.qualityGrade {
                     ObservationQualityLabel(qualityGrade: qualityGrade)
                 }
             }
-            .frame(minHeight: 88, alignment: .top)
+            .frame(minHeight: 108, alignment: .top)
 
             Spacer(minLength: 0)
         }

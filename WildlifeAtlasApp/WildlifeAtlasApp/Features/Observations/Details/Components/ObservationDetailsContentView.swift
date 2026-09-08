@@ -27,8 +27,15 @@ struct ObservationDetailsContentView: View {
                     hasAdditionalInformation(taxon)
                 {
                     ObservationDetailsSection("Taxon") {
+                        ForEach(taxon.classification, id: \.rank) { taxonRank in
+                            LabeledContent(
+                                rankTitle(taxonRank.rank),
+                                value: taxonRank.name
+                            )
+                        }
+
                         if let rank = taxon.rank {
-                            LabeledContent("Rank", value: rankTitle(rank))
+                            LabeledContent("Observation rank", value: rankTitle(rank))
                         }
 
                         if let iconicTaxonName = taxon.iconicTaxonName {
@@ -48,19 +55,7 @@ struct ObservationDetailsContentView: View {
                 }
 
                 if let author = details.author {
-                    ObservationDetailsSection("Observer") {
-                        if let name = author.name {
-                            Text(name)
-                        }
-
-                        if
-                            let login = author.login,
-                            login != author.name
-                        {
-                            Text("@\(login)")
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+                    authorSection(author)
                 }
 
                 if let selectedPhoto,
@@ -135,12 +130,9 @@ struct ObservationDetailsContentView: View {
                 ObservationQualityLabel(qualityGrade: qualityGrade)
             }
 
-            if
-                let observedOn = details.observedOn,
-                let date = observedOn.date(in: .current)
-            {
+            if let observedOn = details.observedOn {
                 Label {
-                    Text(date, format: .dateTime.day().month().year())
+                    observationDate(observedOn)
                 } icon: {
                     Image(systemName: "calendar")
                 }
@@ -153,6 +145,53 @@ struct ObservationDetailsContentView: View {
         taxon.rank != nil
             || taxon.iconicTaxonName != nil
             || taxon.wikipediaURL != nil
+            || !taxon.classification.isEmpty
+    }
+
+    @ViewBuilder
+    private func observationDate(_ observedOn: ObservationDate) -> some View {
+        if
+            let observedTime = details.observedTime,
+            let date = observedOn.date(at: observedTime, in: .current)
+        {
+            Text(
+                date,
+                format: .dateTime.day().month().year().hour().minute()
+            )
+        } else if let date = observedOn.date(in: .current) {
+            Text(date, format: .dateTime.day().month().year())
+        }
+    }
+
+    private func authorSection(_ author: ObservationAuthor) -> some View {
+        ObservationDetailsSection("Observer") {
+            HStack(spacing: 12) {
+                if let avatarURL = author.avatarURL {
+                    ObservationImageView(
+                        url: avatarURL,
+                        imagePipeline: imagePipeline
+                    )
+                    .frame(width: 52, height: 52)
+                    .clipShape(Circle())
+                } else {
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.system(size: 44))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 52, height: 52)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    if let name = author.name {
+                        Text(name)
+                    }
+
+                    if let login = author.login, login != author.name {
+                        Text("@\(login)")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
     }
 
     @ViewBuilder

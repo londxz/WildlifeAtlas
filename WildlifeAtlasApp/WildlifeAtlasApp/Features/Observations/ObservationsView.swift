@@ -284,7 +284,8 @@ private struct PreviewObservationRepository: ObservationRepository {
                     scientificName: "Vulpes vulpes",
                     observedOn: ObservationDate(year: 2026, month: 9, day: 6),
                     qualityGrade: .research,
-                    previewImageURL: nil
+                    previewImageURL: nil,
+                    locationName: "Cedar Ridge, Ontario"
                 )
             ],
             page: page,

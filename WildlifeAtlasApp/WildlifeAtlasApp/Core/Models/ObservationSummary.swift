@@ -14,6 +14,7 @@ struct ObservationSummary: Identifiable, Sendable {
     let observedOn: ObservationDate?
     let qualityGrade: ObservationQualityGrade?
     let previewImageURL: URL?
+    let locationName: String?
 }
 
 struct ObservationDate: Hashable, Sendable {
@@ -63,6 +64,35 @@ struct ObservationDate: Hashable, Sendable {
                 day: day
             )
         )
+    }
+
+    func date(at time: ObservationTime, in timeZone: TimeZone) -> Date? {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+
+        return calendar.date(
+            from: DateComponents(
+                year: year,
+                month: month,
+                day: day,
+                hour: time.hour,
+                minute: time.minute
+            )
+        )
+    }
+}
+
+struct ObservationTime: Hashable, Sendable {
+    let hour: Int
+    let minute: Int
+
+    init?(hour: Int, minute: Int) {
+        guard (0..<24).contains(hour), (0..<60).contains(minute) else {
+            return nil
+        }
+
+        self.hour = hour
+        self.minute = minute
     }
 }
 

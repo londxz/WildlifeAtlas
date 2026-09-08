@@ -53,7 +53,7 @@ private struct ObservationRowSkeleton: View {
         HStack(alignment: .top, spacing: 12) {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.quaternary)
-                .frame(width: 88, height: 88)
+                .frame(width: 108, height: 108)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text("Common name")
@@ -64,6 +64,9 @@ private struct ObservationRowSkeleton: View {
                     .italic()
 
                 Label("Observation date", systemImage: "calendar")
+                    .font(.caption)
+
+                Label("Approximate location", systemImage: "mappin.and.ellipse")
                     .font(.caption)
 
                 Label("Quality grade", systemImage: "circle.fill")
@@ -95,6 +98,9 @@ private struct ObservationGridItemSkeleton: View {
                 .lineLimit(2, reservesSpace: true)
 
             Label("Observation date", systemImage: "calendar")
+                .font(.caption)
+
+            Label("Approximate location", systemImage: "mappin.and.ellipse")
                 .font(.caption)
 
             Label("Quality grade", systemImage: "circle.fill")

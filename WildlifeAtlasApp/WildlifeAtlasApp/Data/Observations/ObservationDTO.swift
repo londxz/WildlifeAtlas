@@ -10,11 +10,13 @@ import Foundation
 struct ObservationDTO: Decodable, Sendable {
     private let uuid: UUID
     private let observedOn: String?
+    private let timeObservedAt: String?
     private let qualityGrade: String?
     private let taxon: TaxonDTO?
     private let photos: [PhotoDTO]?
     private let placeGuess: String?
     private let geoprivacy: String?
+    private let taxonGeoprivacy: String?
     private let obscured: Bool?
     private let user: UserDTO?
     private let uri: String?
@@ -22,11 +24,13 @@ struct ObservationDTO: Decodable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case uuid
         case observedOn = "observed_on"
+        case timeObservedAt = "time_observed_at"
         case qualityGrade = "quality_grade"
         case taxon
         case photos
         case placeGuess = "place_guess"
         case geoprivacy
+        case taxonGeoprivacy = "taxon_geoprivacy"
         case obscured
         case user
         case uri
@@ -41,15 +45,19 @@ struct ObservationDTO: Decodable, Sendable {
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
             previewImageURL: photos?
                 .compactMap { $0.imageURL(size: .medium) }
-                .first
+                .first,
+            locationName: publicLocationName
         )
     }
 
-    func toObservationDetails() -> ObservationDetails {
+    func toObservationDetails(
+        classification: [ObservationTaxonRank] = []
+    ) -> ObservationDetails {
         ObservationDetails(
             id: uuid,
-            taxon: domainTaxon,
+            taxon: domainTaxon(classification: classification),
             observedOn: observedOn.flatMap(Self.parseObservedOn),
+            observedTime: timeObservedAt.flatMap(Self.parseObservedTime),
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
             photos: domainPhotos,
             location: domainLocation,
@@ -58,7 +66,13 @@ struct ObservationDTO: Decodable, Sendable {
         )
     }
 
-    private var domainTaxon: ObservationTaxon? {
+    var taxonID: Int? {
+        taxon?.id
+    }
+
+    private func domainTaxon(
+        classification: [ObservationTaxonRank]
+    ) -> ObservationTaxon? {
         guard let taxon else { return nil }
 
         let commonName = Self.nonEmpty(taxon.preferredCommonName)
@@ -82,7 +96,8 @@ struct ObservationDTO: Decodable, Sendable {
             scientificName: scientificName,
             rank: rank,
             iconicTaxonName: iconicTaxonName,
-            wikipediaURL: wikipediaURL
+            wikipediaURL: wikipediaURL,
+            classification: classification
         )
     }
 
@@ -106,10 +121,13 @@ struct ObservationDTO: Decodable, Sendable {
 
     private var domainLocation: ObservationLocation? {
         let normalizedGeoprivacy = geoprivacy?.lowercased()
+        let normalizedTaxonGeoprivacy = taxonGeoprivacy?.lowercased()
 
         if obscured == true
             || normalizedGeoprivacy == "obscured"
             || normalizedGeoprivacy == "private"
+            || normalizedTaxonGeoprivacy == "obscured"
+            || normalizedTaxonGeoprivacy == "private"
         {
             return .obscured
         }
@@ -117,15 +135,25 @@ struct ObservationDTO: Decodable, Sendable {
         return Self.nonEmpty(placeGuess).map(ObservationLocation.approximate)
     }
 
+    private var publicLocationName: String? {
+        guard case .approximate(let name) = domainLocation else { return nil }
+        return name
+    }
+
     private var domainAuthor: ObservationAuthor? {
         guard let user else { return nil }
 
         let name = Self.nonEmpty(user.name)
         let login = Self.nonEmpty(user.login)
+        let avatarURL = user.iconURL.flatMap(URL.init(string:))
 
-        guard name != nil || login != nil else { return nil }
+        guard name != nil || login != nil || avatarURL != nil else { return nil }
 
-        return ObservationAuthor(name: name, login: login)
+        return ObservationAuthor(
+            name: name,
+            login: login,
+            avatarURL: avatarURL
+        )
     }
 
     private static func parseObservedOn(_ value: String) -> ObservationDate? {
@@ -145,6 +173,23 @@ struct ObservationDTO: Decodable, Sendable {
             month: month,
             day: day
         )
+    }
+
+    private static func parseObservedTime(_ value: String) -> ObservationTime? {
+        guard let time = value.split(separator: "T").dropFirst().first else {
+            return nil
+        }
+
+        let components = time.split(separator: ":")
+        guard
+            components.count >= 2,
+            let hour = Int(components[0]),
+            let minute = Int(components[1])
+        else {
+            return nil
+        }
+
+        return ObservationTime(hour: hour, minute: minute)
     }
 
     private static func parseQualityGrade(_ value: String) -> ObservationQualityGrade? {
@@ -169,6 +214,7 @@ struct ObservationDTO: Decodable, Sendable {
 }
 
 private struct TaxonDTO: Decodable, Sendable {
+    let id: Int?
     let name: String?
     let preferredCommonName: String?
     let rank: String?
@@ -176,6 +222,7 @@ private struct TaxonDTO: Decodable, Sendable {
     let wikipediaURL: String?
 
     private enum CodingKeys: String, CodingKey {
+        case id
         case name
         case preferredCommonName = "preferred_common_name"
         case rank
@@ -215,4 +262,11 @@ private enum INaturalistPhotoSize: String {
 private struct UserDTO: Decodable, Sendable {
     let login: String?
     let name: String?
+    let iconURL: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case login
+        case name
+        case iconURL = "icon_url"
+    }
 }

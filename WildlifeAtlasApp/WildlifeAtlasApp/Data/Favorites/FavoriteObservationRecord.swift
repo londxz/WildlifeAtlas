@@ -16,9 +16,12 @@ final class FavoriteObservationRecord {
     var taxonRank: String?
     var iconicTaxonName: String?
     var wikipediaURLString: String?
+    var taxonClassificationData: Data?
     var observedOnYear: Int?
     var observedOnMonth: Int?
     var observedOnDay: Int?
+    var observedTimeHour: Int?
+    var observedTimeMinute: Int?
     var qualityGradeRawValue: String?
     var photoURLString: String?
     var previewImageURLString: String?
@@ -29,6 +32,7 @@ final class FavoriteObservationRecord {
     var isLocationObscured: Bool?
     var authorName: String?
     var authorLogin: String?
+    var authorAvatarURLString: String?
     var publicURLString: String?
     var addedAt: Date
 
@@ -39,9 +43,14 @@ final class FavoriteObservationRecord {
         taxonRank = observation.taxon?.rank
         iconicTaxonName = observation.taxon?.iconicTaxonName
         wikipediaURLString = observation.taxon?.wikipediaURL?.absoluteString
+        taxonClassificationData = Self.encodeClassification(
+            observation.taxon?.classification ?? []
+        )
         observedOnYear = observation.observedOn?.year
         observedOnMonth = observation.observedOn?.month
         observedOnDay = observation.observedOn?.day
+        observedTimeHour = observation.observedTime?.hour
+        observedTimeMinute = observation.observedTime?.minute
         qualityGradeRawValue = observation.qualityGrade?.rawValue
         let primaryPhoto = observation.photos.first
         photoURLString = primaryPhoto?.url.absoluteString
@@ -62,6 +71,7 @@ final class FavoriteObservationRecord {
         }
         authorName = observation.author?.name
         authorLogin = observation.author?.login
+        authorAvatarURLString = observation.author?.avatarURL?.absoluteString
         publicURLString = observation.publicURL?.absoluteString
         self.addedAt = addedAt
     }
@@ -72,9 +82,14 @@ final class FavoriteObservationRecord {
         taxonRank = observation.taxon?.rank
         iconicTaxonName = observation.taxon?.iconicTaxonName
         wikipediaURLString = observation.taxon?.wikipediaURL?.absoluteString
+        taxonClassificationData = Self.encodeClassification(
+            observation.taxon?.classification ?? []
+        )
         observedOnYear = observation.observedOn?.year
         observedOnMonth = observation.observedOn?.month
         observedOnDay = observation.observedOn?.day
+        observedTimeHour = observation.observedTime?.hour
+        observedTimeMinute = observation.observedTime?.minute
         qualityGradeRawValue = observation.qualityGrade?.rawValue
         let primaryPhoto = observation.photos.first
         photoURLString = primaryPhoto?.url.absoluteString
@@ -95,6 +110,7 @@ final class FavoriteObservationRecord {
         }
         authorName = observation.author?.name
         authorLogin = observation.author?.login
+        authorAvatarURLString = observation.author?.avatarURL?.absoluteString
         publicURLString = observation.publicURL?.absoluteString
     }
 
@@ -103,6 +119,7 @@ final class FavoriteObservationRecord {
             id: id,
             taxon: taxon,
             observedOn: observedOn,
+            observedTime: observedTime,
             qualityGrade: qualityGradeRawValue.flatMap(
                 ObservationQualityGrade.init(rawValue:)
             ),
@@ -131,8 +148,23 @@ final class FavoriteObservationRecord {
             scientificName: scientificName,
             rank: taxonRank,
             iconicTaxonName: iconicTaxonName,
-            wikipediaURL: wikipediaURL
+            wikipediaURL: wikipediaURL,
+            classification: classification
         )
+    }
+
+    private var classification: [ObservationTaxonRank] {
+        guard
+            let taxonClassificationData,
+            let storedRanks = try? JSONDecoder().decode(
+                [StoredTaxonRank].self,
+                from: taxonClassificationData
+            )
+        else {
+            return []
+        }
+
+        return storedRanks.map(\.domainRank)
     }
 
     private var observedOn: ObservationDate? {
@@ -149,6 +181,11 @@ final class FavoriteObservationRecord {
             month: observedOnMonth,
             day: observedOnDay
         )
+    }
+
+    private var observedTime: ObservationTime? {
+        guard let observedTimeHour, let observedTimeMinute else { return nil }
+        return ObservationTime(hour: observedTimeHour, minute: observedTimeMinute)
     }
 
     private var photos: [ObservationPhoto] {
@@ -194,10 +231,24 @@ final class FavoriteObservationRecord {
         return try? JSONEncoder().encode(storedPhotos)
     }
 
-    private var author: ObservationAuthor? {
-        guard authorName != nil || authorLogin != nil else { return nil }
+    private static func encodeClassification(
+        _ classification: [ObservationTaxonRank]
+    ) -> Data? {
+        guard !classification.isEmpty else { return nil }
+        return try? JSONEncoder().encode(classification.map(StoredTaxonRank.init))
+    }
 
-        return ObservationAuthor(name: authorName, login: authorLogin)
+    private var author: ObservationAuthor? {
+        let avatarURL = authorAvatarURLString.flatMap(URL.init(string:))
+        guard authorName != nil || authorLogin != nil || avatarURL != nil else {
+            return nil
+        }
+
+        return ObservationAuthor(
+            name: authorName,
+            login: authorLogin,
+            avatarURL: avatarURL
+        )
     }
 
     private var location: ObservationLocation? {
@@ -206,6 +257,20 @@ final class FavoriteObservationRecord {
         }
 
         return locationName.map(ObservationLocation.approximate)
+    }
+}
+
+private struct StoredTaxonRank: Codable {
+    let rank: String
+    let name: String
+
+    init(domainRank: ObservationTaxonRank) {
+        rank = domainRank.rank
+        name = domainRank.name
+    }
+
+    var domainRank: ObservationTaxonRank {
+        ObservationTaxonRank(rank: rank, name: name)
     }
 }
 

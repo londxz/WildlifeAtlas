@@ -14,13 +14,19 @@ struct INaturalistObservationRepository: ObservationRepository {
         "quality_grade",
         "taxon.name",
         "taxon.preferred_common_name",
-        "photos.url"
+        "photos.url",
+        "place_guess",
+        "geoprivacy",
+        "taxon_geoprivacy",
+        "obscured"
     ].joined(separator: ",")
 
     private static let observationDetailsFields = [
         "uuid",
         "observed_on",
+        "time_observed_at",
         "quality_grade",
+        "taxon.id",
         "taxon.name",
         "taxon.preferred_common_name",
         "taxon.rank",
@@ -31,8 +37,10 @@ struct INaturalistObservationRepository: ObservationRepository {
         "photos.attribution",
         "user.login",
         "user.name",
+        "user.icon_url",
         "place_guess",
         "geoprivacy",
+        "taxon_geoprivacy",
         "obscured",
         "uri"
     ].joined(separator: ",")
@@ -100,9 +108,44 @@ struct INaturalistObservationRepository: ObservationRepository {
                 request,
                 as: ObservationDetailsResponseDTO.self
             )
-            return responseDTO.toDomain()
+            guard let observationDTO = responseDTO.observation else {
+                return nil
+            }
+
+            let classification = await fetchTaxonClassification(
+                taxonID: observationDTO.taxonID
+            )
+            return observationDTO.toObservationDetails(
+                classification: classification
+            )
         } catch APIClientError.unsuccessfulStatusCode(404) {
             return nil
         }
+    }
+
+    private func fetchTaxonClassification(
+        taxonID: Int?
+    ) async -> [ObservationTaxonRank] {
+        guard let taxonID else { return [] }
+
+        let request = APIRequest(
+            path: "taxa/\(taxonID)",
+            queryItems: [
+                URLQueryItem(name: "locale", value: "en"),
+                URLQueryItem(
+                    name: "fields",
+                    value: "name,rank,ancestors.name,ancestors.rank"
+                )
+            ]
+        )
+
+        guard let responseDTO = try? await apiClient.get(
+            request,
+            as: TaxonClassificationResponseDTO.self
+        ) else {
+            return []
+        }
+
+        return responseDTO.toDomain()
     }
 }

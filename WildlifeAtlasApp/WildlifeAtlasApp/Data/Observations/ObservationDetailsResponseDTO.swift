@@ -8,7 +8,7 @@
 struct ObservationDetailsResponseDTO: Decodable, Sendable {
     private let results: [ObservationDTO]
 
-    func toDomain() -> ObservationDetails? {
-        results.first?.toObservationDetails()
+    var observation: ObservationDTO? {
+        results.first
     }
 }

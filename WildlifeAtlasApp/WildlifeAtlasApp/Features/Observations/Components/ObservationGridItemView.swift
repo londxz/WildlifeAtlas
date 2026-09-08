@@ -52,6 +52,13 @@ struct ObservationGridItemView: View {
                 .foregroundStyle(.secondary)
             }
 
+            if let locationName = observation.locationName {
+                Label(locationName, systemImage: "mappin.and.ellipse")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+
             if let qualityGrade = observation.qualityGrade {
                 ObservationQualityLabel(qualityGrade: qualityGrade)
             }

@@ -51,6 +51,7 @@
 		3C52549A304DA55200383DEE /* SwiftDataFavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */; };
 		3C52549C304DA55200383DEE /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549D304DA55200383DEE /* FavoritesStore.swift */; };
 		3C5254A0304DA55200383DEE /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5254A1304DA55200383DEE /* ImagePipeline.swift */; };
+		3C5254EF304DA55200383DEE /* TaxonClassificationResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5254F0304DA55200383DEE /* TaxonClassificationResponseDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataFavoritesRepository.swift; sourceTree = "<group>"; };
 		3C52549D304DA55200383DEE /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
 		3C5254A1304DA55200383DEE /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
+		3C5254F0304DA55200383DEE /* TaxonClassificationResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonClassificationResponseDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				3C52548A304DA55200383DEE /* INaturalistTaxonRepository.swift */,
+				3C5254F0304DA55200383DEE /* TaxonClassificationResponseDTO.swift */,
 				3C52548C304DA55200383DEE /* TaxonSearchResponseDTO.swift */,
 			);
 			path = Taxa;
@@ -413,6 +416,7 @@
 				3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */,
 				3C525443304DA55200383DEE /* AppDependencies.swift in Sources */,
 				3C525489304DA55200383DEE /* INaturalistTaxonRepository.swift in Sources */,
+				3C5254EF304DA55200383DEE /* TaxonClassificationResponseDTO.swift in Sources */,
 				3C52548B304DA55200383DEE /* TaxonSearchResponseDTO.swift in Sources */,
 				3C525487304DA55200383DEE /* TaxonRepository.swift in Sources */,
 				3C52548D304DA55200383DEE /* TaxonSearchViewModel.swift in Sources */,

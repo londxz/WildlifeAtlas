@@ -11,6 +11,7 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
     let id: UUID
     let taxon: ObservationTaxon?
     let observedOn: ObservationDate?
+    let observedTime: ObservationTime?
     let qualityGrade: ObservationQualityGrade?
     let photos: [ObservationPhoto]
     let location: ObservationLocation?
@@ -24,7 +25,8 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
             scientificName: taxon?.scientificName,
             observedOn: observedOn,
             qualityGrade: qualityGrade,
-            previewImageURL: photos.first?.previewURL
+            previewImageURL: photos.first?.previewURL,
+            locationName: location?.approximateName
         )
     }
 }
@@ -34,12 +36,25 @@ enum ObservationLocation: Hashable, Sendable {
     case obscured
 }
 
+private extension ObservationLocation {
+    var approximateName: String? {
+        guard case .approximate(let name) = self else { return nil }
+        return name
+    }
+}
+
 struct ObservationTaxon: Hashable, Sendable {
     let commonName: String?
     let scientificName: String?
     let rank: String?
     let iconicTaxonName: String?
     let wikipediaURL: URL?
+    let classification: [ObservationTaxonRank]
+}
+
+struct ObservationTaxonRank: Hashable, Sendable {
+    let rank: String
+    let name: String
 }
 
 struct ObservationPhoto: Hashable, Sendable {
@@ -52,4 +67,5 @@ struct ObservationPhoto: Hashable, Sendable {
 struct ObservationAuthor: Hashable, Sendable {
     let name: String?
     let login: String?
+    let avatarURL: URL?
 }
