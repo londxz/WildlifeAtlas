@@ -12,7 +12,7 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
     let taxon: ObservationTaxon?
     let observedOn: ObservationDate?
     let qualityGrade: ObservationQualityGrade?
-    let photo: ObservationPhoto?
+    let photos: [ObservationPhoto]
     let locationName: String?
     let author: ObservationAuthor?
 
@@ -23,7 +23,7 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
             scientificName: taxon?.scientificName,
             observedOn: observedOn,
             qualityGrade: qualityGrade,
-            previewImageURL: photo?.previewURL
+            previewImageURL: photos.first?.previewURL
         )
     }
 }

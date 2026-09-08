@@ -49,7 +49,7 @@ struct ObservationDTO: Decodable, Sendable {
             taxon: domainTaxon,
             observedOn: observedOn.flatMap(Self.parseObservedOn),
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
-            photo: domainPhoto,
+            photos: domainPhotos,
             locationName: publicLocationName,
             author: domainAuthor
         )
@@ -83,21 +83,22 @@ struct ObservationDTO: Decodable, Sendable {
         )
     }
 
-    private var domainPhoto: ObservationPhoto? {
-        guard
-            let photo = photos?.first,
-            let previewURL = photo.imageURL(size: .medium),
-            let largeURL = photo.imageURL(size: .large)
-        else {
-            return nil
-        }
+    private var domainPhotos: [ObservationPhoto] {
+        photos?.compactMap { photo in
+            guard
+                let previewURL = photo.imageURL(size: .medium),
+                let largeURL = photo.imageURL(size: .large)
+            else {
+                return nil
+            }
 
-        return ObservationPhoto(
-            url: largeURL,
-            previewURL: previewURL,
-            attribution: Self.nonEmpty(photo.attribution),
-            licenseCode: Self.nonEmpty(photo.licenseCode)?.uppercased()
-        )
+            return ObservationPhoto(
+                url: largeURL,
+                previewURL: previewURL,
+                attribution: Self.nonEmpty(photo.attribution),
+                licenseCode: Self.nonEmpty(photo.licenseCode)?.uppercased()
+            )
+        } ?? []
     }
 
     private var publicLocationName: String? {

@@ -11,17 +11,13 @@ struct ObservationDetailsContentView: View {
     let details: ObservationDetails
     let imagePipeline: ImagePipeline
 
+    @State private var selectedPhotoIndex = 0
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                if let photo = details.photo {
-                    ObservationImageView(
-                        url: photo.url,
-                        contentMode: .fit,
-                        imagePipeline: imagePipeline
-                    )
-                        .aspectRatio(4 / 3, contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                if !details.photos.isEmpty {
+                    photoGallery
                 }
 
                 primaryInformation
@@ -69,16 +65,16 @@ struct ObservationDetailsContentView: View {
                     }
                 }
 
-                if
-                    let photo = details.photo,
-                    photo.attribution != nil || photo.licenseCode != nil
+                if let selectedPhoto,
+                   selectedPhoto.attribution != nil
+                    || selectedPhoto.licenseCode != nil
                 {
                     ObservationDetailsSection("Фотография") {
-                        if let attribution = photo.attribution {
+                        if let attribution = selectedPhoto.attribution {
                             Text(attribution)
                         }
 
-                        if let licenseCode = photo.licenseCode {
+                        if let licenseCode = selectedPhoto.licenseCode {
                             LabeledContent("Лицензия", value: licenseCode)
                         }
                     }
@@ -87,6 +83,40 @@ struct ObservationDetailsContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
         }
+    }
+
+    private var photoGallery: some View {
+        Color.clear
+            .aspectRatio(4 / 3, contentMode: .fit)
+            .overlay {
+                TabView(selection: $selectedPhotoIndex) {
+                    ForEach(details.photos.indices, id: \.self) { index in
+                        ObservationImageView(
+                            url: details.photos[index].url,
+                            contentMode: .fit,
+                            imagePipeline: imagePipeline
+                        )
+                        .tag(index)
+                    }
+                }
+                .tabViewStyle(
+                    .page(
+                        indexDisplayMode: details.photos.count > 1
+                            ? .automatic
+                            : .never
+                    )
+                )
+                .background(.quaternary)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private var selectedPhoto: ObservationPhoto? {
+        guard details.photos.indices.contains(selectedPhotoIndex) else {
+            return nil
+        }
+
+        return details.photos[selectedPhotoIndex]
     }
 
     private var primaryInformation: some View {
