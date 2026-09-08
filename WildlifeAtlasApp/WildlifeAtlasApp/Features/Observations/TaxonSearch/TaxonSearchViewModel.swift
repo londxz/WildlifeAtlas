@@ -14,6 +14,7 @@ final class TaxonSearchViewModel {
     private static let minimumQueryLength = 2
     private static let searchDelay = Duration.milliseconds(300)
     private static let searchResultsLimit = 20
+    private static let recentTaxaLimit = 5
 
     enum State {
         case idle
@@ -31,16 +32,25 @@ final class TaxonSearchViewModel {
     }
 
     private(set) var state: State = .idle
+    private(set) var recentTaxa: [TaxonSummary]
 
     var hasQuery: Bool {
         !normalizedQuery.isEmpty
     }
 
     private let taxonRepository: any TaxonRepository
+    private let appSettings: AppSettings
     private var searchTask: Task<Void, Never>?
 
-    init(taxonRepository: any TaxonRepository) {
+    init(
+        taxonRepository: any TaxonRepository,
+        appSettings: AppSettings
+    ) {
         self.taxonRepository = taxonRepository
+        self.appSettings = appSettings
+        recentTaxa = Array(
+            appSettings.loadRecentTaxa().prefix(Self.recentTaxaLimit)
+        )
     }
 
     func clearQuery() {
@@ -49,6 +59,14 @@ final class TaxonSearchViewModel {
 
     func retry() {
         scheduleSearch(waitForDelay: false)
+    }
+
+    func recordSelectedTaxon(_ taxon: TaxonSummary) {
+        var updatedTaxa = recentTaxa.filter { $0.id != taxon.id }
+        updatedTaxa.insert(taxon, at: 0)
+
+        recentTaxa = Array(updatedTaxa.prefix(Self.recentTaxaLimit))
+        appSettings.saveRecentTaxa(recentTaxa)
     }
 
     private func scheduleSearch(waitForDelay: Bool = true) {

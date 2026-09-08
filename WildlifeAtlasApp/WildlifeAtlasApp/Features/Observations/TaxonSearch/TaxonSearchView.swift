@@ -21,8 +21,8 @@ struct TaxonSearchView: View {
         VStack(spacing: 8) {
             searchField
 
-            if viewModel.hasQuery {
-                searchResults
+            if isSuggestionsPresented {
+                suggestions
             }
         }
         .padding(.horizontal, 12)
@@ -59,9 +59,9 @@ struct TaxonSearchView: View {
         .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
     }
 
-    private var searchResults: some View {
+    private var suggestions: some View {
         VStack(spacing: 0) {
-            Text("Выберите таксон для фильтрации наблюдений")
+            Text(suggestionsTitle)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -69,6 +69,19 @@ struct TaxonSearchView: View {
 
             Divider()
 
+            suggestionsContent
+        }
+        .background(.background, in: RoundedRectangle(cornerRadius: 14))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(.quaternary)
+        }
+        .shadow(color: .black.opacity(0.12), radius: 12, y: 4)
+    }
+
+    @ViewBuilder
+    private var suggestionsContent: some View {
+        if viewModel.hasQuery {
             switch viewModel.state {
             case .idle:
                 searchMessage("Введите минимум два символа")
@@ -81,32 +94,7 @@ struct TaxonSearchView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
             case .content(let taxa):
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(taxa) { taxon in
-                            Button {
-                                selectTaxon(taxon)
-                            } label: {
-                                TaxonSearchResultRowView(
-                                    taxon: taxon,
-                                    imagePipeline: imagePipeline
-                                )
-                            }
-                            .buttonStyle(.plain)
-
-                            if taxon.id != taxa.last?.id {
-                                Divider()
-                                    .padding(.leading, 76)
-                            }
-                        }
-                    }
-                }
-                .frame(
-                    maxHeight: min(
-                        CGFloat(taxa.count) * Self.searchResultRowHeight,
-                        Self.searchResultsMaxHeight
-                    )
-                )
+                taxaList(taxa)
             case .empty:
                 searchMessage("Подходящих таксонов не найдено")
             case .failure(let message):
@@ -122,13 +110,38 @@ struct TaxonSearchView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 20)
             }
+        } else {
+            taxaList(viewModel.recentTaxa)
         }
-        .background(.background, in: RoundedRectangle(cornerRadius: 14))
-        .overlay {
-            RoundedRectangle(cornerRadius: 14)
-                .stroke(.quaternary)
+    }
+
+    private func taxaList(_ taxa: [TaxonSummary]) -> some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(taxa) { taxon in
+                    Button {
+                        selectTaxon(taxon)
+                    } label: {
+                        TaxonSearchResultRowView(
+                            taxon: taxon,
+                            imagePipeline: imagePipeline
+                        )
+                    }
+                    .buttonStyle(.plain)
+
+                    if taxon.id != taxa.last?.id {
+                        Divider()
+                            .padding(.leading, 76)
+                    }
+                }
+            }
         }
-        .shadow(color: .black.opacity(0.12), radius: 12, y: 4)
+        .frame(
+            maxHeight: min(
+                CGFloat(taxa.count) * Self.searchResultRowHeight,
+                Self.searchResultsMaxHeight
+            )
+        )
     }
 
     private func searchMessage(_ message: String) -> some View {
@@ -152,5 +165,16 @@ struct TaxonSearchView: View {
         } else if !taxa.isEmpty {
             searchFieldFocus.wrappedValue = false
         }
+    }
+
+    private var isSuggestionsPresented: Bool {
+        viewModel.hasQuery
+            || searchFieldFocus.wrappedValue && !viewModel.recentTaxa.isEmpty
+    }
+
+    private var suggestionsTitle: String {
+        viewModel.hasQuery
+            ? "Выберите таксон для фильтрации наблюдений"
+            : "Недавно выбранные таксоны"
     }
 }

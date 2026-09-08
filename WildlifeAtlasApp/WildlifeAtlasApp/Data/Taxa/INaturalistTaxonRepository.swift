@@ -13,7 +13,7 @@ struct INaturalistTaxonRepository: TaxonRepository {
         "name",
         "preferred_common_name",
         "iconic_taxon_name",
-        "default_photo.small_url"
+        "default_photo.square_url"
     ].joined(separator: ",")
 
     private let apiClient: any APIClient

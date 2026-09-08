@@ -12,16 +12,16 @@ struct ObservationsView: View {
     let viewModel: ObservationsViewModel
     let taxonSearchViewModel: TaxonSearchViewModel
     let imagePipeline: ImagePipeline
+    let taxonSearchFocus: FocusState<Bool>.Binding
 
     @ScaledMetric(relativeTo: .body)
     private var minimumGridItemWidth: CGFloat = 160
-    @FocusState private var isTaxonSearchFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
             taxonSearchView
                 .zIndex(1)
-                .layoutPriority(taxonSearchViewModel.hasQuery ? 1 : 0)
+                .layoutPriority(isTaxonSearchPresented ? 1 : 0)
             filtersView
             Divider()
 
@@ -57,7 +57,7 @@ struct ObservationsView: View {
                     }
                 }
 
-                if taxonSearchViewModel.hasQuery {
+                if isTaxonSearchPresented {
                     Color.black.opacity(0.45)
                         .contentShape(Rectangle())
                         .onTapGesture {
@@ -91,7 +91,7 @@ struct ObservationsView: View {
         TaxonSearchView(
             viewModel: taxonSearchViewModel,
             imagePipeline: imagePipeline,
-            searchFieldFocus: $isTaxonSearchFocused,
+            searchFieldFocus: taxonSearchFocus,
             onSelectTaxon: { taxon in
                 selectTaxon(taxon)
             }
@@ -118,14 +118,24 @@ struct ObservationsView: View {
     }
 
     private func dismissTaxonSearch() {
-        isTaxonSearchFocused = false
+        taxonSearchFocus.wrappedValue = false
         taxonSearchViewModel.clearQuery()
     }
 
     private func selectTaxon(_ taxon: TaxonSummary?) {
+        if let taxon {
+            taxonSearchViewModel.recordSelectedTaxon(taxon)
+        }
+
         Task {
             await viewModel.selectTaxon(taxon)
         }
+    }
+
+    private var isTaxonSearchPresented: Bool {
+        taxonSearchViewModel.hasQuery
+            || taxonSearchFocus.wrappedValue
+                && !taxonSearchViewModel.recentTaxa.isEmpty
     }
 
     @ViewBuilder
@@ -297,17 +307,29 @@ private struct PreviewTaxonRepository: TaxonRepository {
     }
 }
 
-#Preview {
-    NavigationStack {
-        ObservationsView(
-            viewModel: ObservationsViewModel(
-                observationRepository: PreviewObservationRepository(),
-                appSettings: AppSettings(userDefaults: .standard)
-            ),
-            taxonSearchViewModel: TaxonSearchViewModel(
-                taxonRepository: PreviewTaxonRepository()
-            ),
-            imagePipeline: ImagePipeline()
-        )
+private struct ObservationsPreview: View {
+    @FocusState private var isTaxonSearchFocused: Bool
+
+    var body: some View {
+        let appSettings = AppSettings(userDefaults: .standard)
+
+        NavigationStack {
+            ObservationsView(
+                viewModel: ObservationsViewModel(
+                    observationRepository: PreviewObservationRepository(),
+                    appSettings: appSettings
+                ),
+                taxonSearchViewModel: TaxonSearchViewModel(
+                    taxonRepository: PreviewTaxonRepository(),
+                    appSettings: appSettings
+                ),
+                imagePipeline: ImagePipeline(),
+                taxonSearchFocus: $isTaxonSearchFocused
+            )
+        }
     }
+}
+
+#Preview {
+    ObservationsPreview()
 }

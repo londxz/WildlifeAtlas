@@ -19,6 +19,7 @@ struct RootTabView: View {
     @State private var observationsViewModel: ObservationsViewModel
     @State private var taxonSearchViewModel: TaxonSearchViewModel
     @State private var favoritesStore: FavoritesStore
+    @FocusState private var isTaxonSearchFocused: Bool
 
     private let observationRepository: any ObservationRepository
     private let imagePipeline: ImagePipeline
@@ -35,7 +36,8 @@ struct RootTabView: View {
         )
         _taxonSearchViewModel = State(
             initialValue: TaxonSearchViewModel(
-                taxonRepository: dependencies.taxonRepository
+                taxonRepository: dependencies.taxonRepository,
+                appSettings: dependencies.appSettings
             )
         )
         _favoritesStore = State(
@@ -51,7 +53,8 @@ struct RootTabView: View {
                 ObservationsView(
                     viewModel: observationsViewModel,
                     taxonSearchViewModel: taxonSearchViewModel,
-                    imagePipeline: imagePipeline
+                    imagePipeline: imagePipeline,
+                    taxonSearchFocus: $isTaxonSearchFocused
                 )
                     .navigationDestination(for: UUID.self) { observationID in
                         observationDetailsView(observationID: observationID)
@@ -83,13 +86,19 @@ struct RootTabView: View {
             .tag(AppTab.favorites)
         }
         .background {
-            TabBarDimmingView(isDimmed: taxonSearchViewModel.hasQuery)
+            TabBarDimmingView(isDimmed: isTaxonSearchPresented)
         }
         .onChange(of: selectedTab) {
             if selectedTab != .observations {
+                isTaxonSearchFocused = false
                 taxonSearchViewModel.clearQuery()
             }
         }
+    }
+
+    private var isTaxonSearchPresented: Bool {
+        taxonSearchViewModel.hasQuery
+            || isTaxonSearchFocused && !taxonSearchViewModel.recentTaxa.isEmpty
     }
 
     private func observationDetailsView(
