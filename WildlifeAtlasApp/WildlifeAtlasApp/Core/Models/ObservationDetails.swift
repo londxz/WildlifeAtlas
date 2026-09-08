@@ -15,6 +15,7 @@ struct ObservationDetails: Identifiable, Hashable, Sendable {
     let photos: [ObservationPhoto]
     let locationName: String?
     let author: ObservationAuthor?
+    let publicURL: URL?
 
     var summary: ObservationSummary {
         ObservationSummary(

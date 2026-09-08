@@ -57,7 +57,7 @@ struct ObservationDetailsView: View {
         .navigationTitle("Наблюдение")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            favoriteToolbarItem
+            detailsToolbarItems
         }
         .alert(
             "Не удалось изменить избранное",
@@ -73,11 +73,18 @@ struct ObservationDetailsView: View {
     }
 
     @ToolbarContentBuilder
-    private var favoriteToolbarItem: some ToolbarContent {
+    private var detailsToolbarItems: some ToolbarContent {
         if case .content(let details) = viewModel.state {
             let isFavorite = favoritesStore.isFavorite(id: details.id)
 
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if let publicURL = details.publicURL {
+                    ShareLink(item: publicURL) {
+                        Label("Поделиться", systemImage: "square.and.arrow.up")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+
                 Button {
                     toggleFavorite(details)
                 } label: {

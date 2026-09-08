@@ -28,6 +28,7 @@ final class FavoriteObservationRecord {
     var locationName: String?
     var authorName: String?
     var authorLogin: String?
+    var publicURLString: String?
     var addedAt: Date
 
     init(observation: ObservationDetails, addedAt: Date = .now) {
@@ -50,6 +51,7 @@ final class FavoriteObservationRecord {
         locationName = observation.locationName
         authorName = observation.author?.name
         authorLogin = observation.author?.login
+        publicURLString = observation.publicURL?.absoluteString
         self.addedAt = addedAt
     }
 
@@ -72,6 +74,7 @@ final class FavoriteObservationRecord {
         locationName = observation.locationName
         authorName = observation.author?.name
         authorLogin = observation.author?.login
+        publicURLString = observation.publicURL?.absoluteString
     }
 
     func toObservationDetails() -> ObservationDetails {
@@ -84,7 +87,8 @@ final class FavoriteObservationRecord {
             ),
             photos: photos,
             locationName: locationName,
-            author: author
+            author: author,
+            publicURL: publicURLString.flatMap(URL.init(string:))
         )
     }
 

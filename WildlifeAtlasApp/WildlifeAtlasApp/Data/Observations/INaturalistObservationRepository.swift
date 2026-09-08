@@ -33,7 +33,8 @@ struct INaturalistObservationRepository: ObservationRepository {
         "user.name",
         "place_guess",
         "geoprivacy",
-        "obscured"
+        "obscured",
+        "uri"
     ].joined(separator: ",")
 
     private let apiClient: any APIClient

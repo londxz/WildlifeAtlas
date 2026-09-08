@@ -17,6 +17,7 @@ struct ObservationDTO: Decodable, Sendable {
     private let geoprivacy: String?
     private let obscured: Bool?
     private let user: UserDTO?
+    private let uri: String?
 
     private enum CodingKeys: String, CodingKey {
         case uuid
@@ -28,6 +29,7 @@ struct ObservationDTO: Decodable, Sendable {
         case geoprivacy
         case obscured
         case user
+        case uri
     }
 
     func toObservationSummary() -> ObservationSummary {
@@ -51,7 +53,8 @@ struct ObservationDTO: Decodable, Sendable {
             qualityGrade: qualityGrade.flatMap(Self.parseQualityGrade),
             photos: domainPhotos,
             locationName: publicLocationName,
-            author: domainAuthor
+            author: domainAuthor,
+            publicURL: uri.flatMap(URL.init(string:))
         )
     }
 
