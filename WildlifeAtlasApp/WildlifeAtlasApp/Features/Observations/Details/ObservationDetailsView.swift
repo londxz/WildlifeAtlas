@@ -9,9 +9,16 @@ import SwiftUI
 
 struct ObservationDetailsView: View {
     @State private var viewModel: ObservationDetailsViewModel
+    @State private var isFavoriteErrorPresented = false
 
-    init(viewModel: ObservationDetailsViewModel) {
+    private let favoritesStore: FavoritesStore
+
+    init(
+        viewModel: ObservationDetailsViewModel,
+        favoritesStore: FavoritesStore
+    ) {
         _viewModel = State(initialValue: viewModel)
+        self.favoritesStore = favoritesStore
     }
 
     var body: some View {
@@ -43,8 +50,49 @@ struct ObservationDetailsView: View {
         }
         .navigationTitle("Наблюдение")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            favoriteToolbarItem
+        }
+        .alert(
+            "Не удалось изменить избранное",
+            isPresented: $isFavoriteErrorPresented
+        ) {
+            Button("ОК", role: .cancel) {}
+        } message: {
+            Text("Попробуйте ещё раз.")
+        }
         .task {
             await viewModel.loadIfNeeded()
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var favoriteToolbarItem: some ToolbarContent {
+        if case .content(let details) = viewModel.state {
+            let isFavorite = favoritesStore.isFavorite(id: details.id)
+
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    toggleFavorite(details)
+                } label: {
+                    Label(
+                        isFavorite
+                            ? "Удалить из избранного"
+                            : "Добавить в избранное",
+                        systemImage: isFavorite ? "heart.fill" : "heart"
+                    )
+                    .labelStyle(.iconOnly)
+                }
+                .tint(isFavorite ? .red : .primary)
+            }
+        }
+    }
+
+    private func toggleFavorite(_ details: ObservationDetails) {
+        do {
+            try favoritesStore.toggleFavorite(details)
+        } catch {
+            isFavoriteErrorPresented = true
         }
     }
 }

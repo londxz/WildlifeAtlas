@@ -18,6 +18,7 @@ struct RootTabView: View {
     @State private var selectedTab: AppTab = .observations
     @State private var observationsViewModel: ObservationsViewModel
     @State private var taxonSearchViewModel: TaxonSearchViewModel
+    @State private var favoritesStore: FavoritesStore
 
     private let observationRepository: any ObservationRepository
 
@@ -35,6 +36,11 @@ struct RootTabView: View {
                 taxonRepository: dependencies.taxonRepository
             )
         )
+        _favoritesStore = State(
+            initialValue: FavoritesStore(
+                favoritesRepository: dependencies.favoritesRepository
+            )
+        )
     }
 
     var body: some View {
@@ -45,12 +51,7 @@ struct RootTabView: View {
                     taxonSearchViewModel: taxonSearchViewModel
                 )
                     .navigationDestination(for: UUID.self) { observationID in
-                        ObservationDetailsView(
-                            viewModel: ObservationDetailsViewModel(
-                                observationID: observationID,
-                                observationRepository: observationRepository
-                            )
-                        )
+                        observationDetailsView(observationID: observationID)
                     }
             }
             .tabItem {
@@ -59,8 +60,17 @@ struct RootTabView: View {
             .tag(AppTab.observations)
 
             NavigationStack {
-                FavoritesView {
-                    selectedTab = .observations
+                FavoritesView(
+                    favoritesStore: favoritesStore,
+                    onBrowseObservations: {
+                        selectedTab = .observations
+                    }
+                )
+                .navigationDestination(for: ObservationDetails.self) { details in
+                    observationDetailsView(
+                        observationID: details.id,
+                        initialDetails: details
+                    )
                 }
             }
             .tabItem {
@@ -78,6 +88,19 @@ struct RootTabView: View {
         }
     }
 
+    private func observationDetailsView(
+        observationID: UUID,
+        initialDetails: ObservationDetails? = nil
+    ) -> ObservationDetailsView {
+        ObservationDetailsView(
+            viewModel: ObservationDetailsViewModel(
+                observationID: observationID,
+                observationRepository: observationRepository,
+                initialDetails: initialDetails
+            ),
+            favoritesStore: favoritesStore
+        )
+    }
 }
 
 private struct TabBarDimmingView: UIViewControllerRepresentable {

@@ -46,6 +46,10 @@
 		3C52548D304DA55200383DEE /* TaxonSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52548E304DA55200383DEE /* TaxonSearchViewModel.swift */; };
 		3C52548F304DA55200383DEE /* TaxonSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525490304DA55200383DEE /* TaxonSearchView.swift */; };
 		3C525491304DA55200383DEE /* TaxonSearchResultRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525492304DA55200383DEE /* TaxonSearchResultRowView.swift */; };
+		3C525496304DA55200383DEE /* FavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525497304DA55200383DEE /* FavoritesRepository.swift */; };
+		3C525498304DA55200383DEE /* FavoriteObservationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525499304DA55200383DEE /* FavoriteObservationRecord.swift */; };
+		3C52549A304DA55200383DEE /* SwiftDataFavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */; };
+		3C52549C304DA55200383DEE /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549D304DA55200383DEE /* FavoritesStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +93,10 @@
 		3C52548E304DA55200383DEE /* TaxonSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchViewModel.swift; sourceTree = "<group>"; };
 		3C525490304DA55200383DEE /* TaxonSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchView.swift; sourceTree = "<group>"; };
 		3C525492304DA55200383DEE /* TaxonSearchResultRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxonSearchResultRowView.swift; sourceTree = "<group>"; };
+		3C525497304DA55200383DEE /* FavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRepository.swift; sourceTree = "<group>"; };
+		3C525499304DA55200383DEE /* FavoriteObservationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteObservationRecord.swift; sourceTree = "<group>"; };
+		3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataFavoritesRepository.swift; sourceTree = "<group>"; };
+		3C52549D304DA55200383DEE /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				3C525439304DA55200383DEE /* FavoritesView.swift */,
+				3C52549D304DA55200383DEE /* FavoritesStore.swift */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 		3C525455304DA55200383DEE /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				3C525497304DA55200383DEE /* FavoritesRepository.swift */,
 				3C52544E304DA55200383DEE /* ObservationRepository.swift */,
 				3C525488304DA55200383DEE /* TaxonRepository.swift */,
 			);
@@ -224,6 +234,7 @@
 		3C525458304DA55200383DEE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3C52549E304DA55200383DEE /* Favorites */,
 				3C525457304DA55200383DEE /* Observations */,
 				3C525493304DA55200383DEE /* Taxa */,
 			);
@@ -300,6 +311,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		3C52549E304DA55200383DEE /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				3C525499304DA55200383DEE /* FavoriteObservationRecord.swift */,
+				3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -374,6 +394,10 @@
 			files = (
 				3C525445304DA55200383DEE /* APIClient.swift in Sources */,
 				3C525460304DA55200383DEE /* AppSettings.swift in Sources */,
+				3C525496304DA55200383DEE /* FavoritesRepository.swift in Sources */,
+				3C525498304DA55200383DEE /* FavoriteObservationRecord.swift in Sources */,
+				3C52549A304DA55200383DEE /* SwiftDataFavoritesRepository.swift in Sources */,
+				3C52549C304DA55200383DEE /* FavoritesStore.swift in Sources */,
 				3C52545E304DA55200383DEE /* URLSessionAPIClient.swift in Sources */,
 				3C525443304DA55200383DEE /* AppDependencies.swift in Sources */,
 				3C525489304DA55200383DEE /* INaturalistTaxonRepository.swift in Sources */,

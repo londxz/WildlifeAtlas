@@ -26,10 +26,15 @@ final class ObservationDetailsViewModel {
 
     init(
         observationID: UUID,
-        observationRepository: any ObservationRepository
+        observationRepository: any ObservationRepository,
+        initialDetails: ObservationDetails? = nil
     ) {
         self.observationID = observationID
         self.observationRepository = observationRepository
+
+        if let initialDetails {
+            state = .content(initialDetails)
+        }
     }
 
     func loadIfNeeded() async {

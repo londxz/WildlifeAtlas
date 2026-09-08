@@ -10,8 +10,10 @@ import Foundation
 struct AppDependencies {
     let observationRepository: any ObservationRepository
     let taxonRepository: any TaxonRepository
+    let favoritesRepository: any FavoritesRepository
     let appSettings: AppSettings
 
+    @MainActor
     init() {
         let apiClient = URLSessionAPIClient(
             baseURL: Self.iNaturalistAPIBaseURL
@@ -23,12 +25,20 @@ struct AppDependencies {
         let taxonRepository = INaturalistTaxonRepository(
             apiClient: apiClient
         )
+        let favoritesRepository: any FavoritesRepository
+
+        do {
+            favoritesRepository = try SwiftDataFavoritesRepository()
+        } catch {
+            preconditionFailure("Failed to create favorites storage: \(error)")
+        }
 
         let appSettings = AppSettings(userDefaults: .standard)
 
         self.init(
             observationRepository: observationRepository,
             taxonRepository: taxonRepository,
+            favoritesRepository: favoritesRepository,
             appSettings: appSettings
         )
     }
@@ -36,10 +46,12 @@ struct AppDependencies {
     init(
         observationRepository: any ObservationRepository,
         taxonRepository: any TaxonRepository,
+        favoritesRepository: any FavoritesRepository,
         appSettings: AppSettings
     ) {
         self.observationRepository = observationRepository
         self.taxonRepository = taxonRepository
+        self.favoritesRepository = favoritesRepository
         self.appSettings = appSettings
     }
 

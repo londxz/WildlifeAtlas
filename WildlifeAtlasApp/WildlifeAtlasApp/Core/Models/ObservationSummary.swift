@@ -16,7 +16,7 @@ struct ObservationSummary: Identifiable, Sendable {
     let previewImageURL: URL?
 }
 
-struct ObservationDate: Sendable {
+struct ObservationDate: Hashable, Sendable {
     let year: Int
     let month: Int
     let day: Int
@@ -66,7 +66,7 @@ struct ObservationDate: Sendable {
     }
 }
 
-enum ObservationQualityGrade: Sendable {
+enum ObservationQualityGrade: String, Hashable, Sendable {
     case research
     case needsIdentification
     case casual

@@ -88,7 +88,8 @@ struct ObservationDTO: Decodable, Sendable {
         guard
             let photo = photos?.first,
             let urlString = photo.url,
-            let url = URL(
+            let previewURL = URL(string: urlString),
+            let largeURL = URL(
                 string: urlString.replacingOccurrences(
                     of: "/square.",
                     with: "/large."
@@ -99,7 +100,8 @@ struct ObservationDTO: Decodable, Sendable {
         }
 
         return ObservationPhoto(
-            url: url,
+            url: largeURL,
+            previewURL: previewURL,
             attribution: Self.nonEmpty(photo.attribution),
             licenseCode: Self.nonEmpty(photo.licenseCode)?.uppercased()
         )
