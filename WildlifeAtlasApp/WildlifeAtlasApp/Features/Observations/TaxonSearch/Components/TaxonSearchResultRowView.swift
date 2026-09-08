@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TaxonSearchResultRowView: View {
     let taxon: TaxonSummary
+    let imagePipeline: ImagePipeline
 
     var body: some View {
         HStack(spacing: 12) {
@@ -45,7 +46,10 @@ struct TaxonSearchResultRowView: View {
     @ViewBuilder
     private var taxonImage: some View {
         if let previewImageURL = taxon.previewImageURL {
-            ObservationImageView(url: previewImageURL)
+            ObservationImageView(
+                url: previewImageURL,
+                imagePipeline: imagePipeline
+            )
                 .frame(width: 52, height: 52)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
         } else {

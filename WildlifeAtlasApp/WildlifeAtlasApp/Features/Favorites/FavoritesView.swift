@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     let favoritesStore: FavoritesStore
+    let imagePipeline: ImagePipeline
     let onBrowseObservations: () -> Void
 
     @State private var isRemoveFavoriteErrorPresented = false
@@ -41,7 +42,10 @@ struct FavoritesView: View {
         List {
             ForEach(observations) { observation in
                 NavigationLink(value: observation) {
-                    ObservationRowView(observation: observation.summary)
+                    ObservationRowView(
+                        observation: observation.summary,
+                        imagePipeline: imagePipeline
+                    )
                 }
             }
             .onDelete { offsets in

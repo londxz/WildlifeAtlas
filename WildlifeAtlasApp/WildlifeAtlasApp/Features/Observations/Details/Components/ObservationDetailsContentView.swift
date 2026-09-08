@@ -9,12 +9,17 @@ import SwiftUI
 
 struct ObservationDetailsContentView: View {
     let details: ObservationDetails
+    let imagePipeline: ImagePipeline
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 if let photo = details.photo {
-                    ObservationImageView(url: photo.url, contentMode: .fit)
+                    ObservationImageView(
+                        url: photo.url,
+                        contentMode: .fit,
+                        imagePipeline: imagePipeline
+                    )
                         .aspectRatio(4 / 3, contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }

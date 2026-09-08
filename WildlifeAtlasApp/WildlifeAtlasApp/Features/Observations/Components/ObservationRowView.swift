@@ -9,10 +9,14 @@ import SwiftUI
 
 struct ObservationRowView: View {
     let observation: ObservationSummary
+    let imagePipeline: ImagePipeline
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            ObservationImageView(url: observation.previewImageURL)
+            ObservationImageView(
+                url: observation.previewImageURL,
+                imagePipeline: imagePipeline
+            )
                 .frame(width: 88, height: 88)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 

@@ -12,13 +12,16 @@ struct ObservationDetailsView: View {
     @State private var isFavoriteErrorPresented = false
 
     private let favoritesStore: FavoritesStore
+    private let imagePipeline: ImagePipeline
 
     init(
         viewModel: ObservationDetailsViewModel,
-        favoritesStore: FavoritesStore
+        favoritesStore: FavoritesStore,
+        imagePipeline: ImagePipeline
     ) {
         _viewModel = State(initialValue: viewModel)
         self.favoritesStore = favoritesStore
+        self.imagePipeline = imagePipeline
     }
 
     var body: some View {
@@ -27,7 +30,10 @@ struct ObservationDetailsView: View {
             case .idle, .loading:
                 ObservationDetailsLoadingView()
             case .content(let details):
-                ObservationDetailsContentView(details: details)
+                ObservationDetailsContentView(
+                    details: details,
+                    imagePipeline: imagePipeline
+                )
             case .empty:
                 ContentUnavailableView(
                     "Наблюдение не найдено",

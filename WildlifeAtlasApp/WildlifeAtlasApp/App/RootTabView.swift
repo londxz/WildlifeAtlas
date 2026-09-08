@@ -21,9 +21,11 @@ struct RootTabView: View {
     @State private var favoritesStore: FavoritesStore
 
     private let observationRepository: any ObservationRepository
+    private let imagePipeline: ImagePipeline
 
     init(dependencies: AppDependencies) {
         observationRepository = dependencies.observationRepository
+        imagePipeline = dependencies.imagePipeline
 
         _observationsViewModel = State(
             initialValue: ObservationsViewModel(
@@ -48,7 +50,8 @@ struct RootTabView: View {
             NavigationStack {
                 ObservationsView(
                     viewModel: observationsViewModel,
-                    taxonSearchViewModel: taxonSearchViewModel
+                    taxonSearchViewModel: taxonSearchViewModel,
+                    imagePipeline: imagePipeline
                 )
                     .navigationDestination(for: UUID.self) { observationID in
                         observationDetailsView(observationID: observationID)
@@ -62,6 +65,7 @@ struct RootTabView: View {
             NavigationStack {
                 FavoritesView(
                     favoritesStore: favoritesStore,
+                    imagePipeline: imagePipeline,
                     onBrowseObservations: {
                         selectedTab = .observations
                     }
@@ -98,7 +102,8 @@ struct RootTabView: View {
                 observationRepository: observationRepository,
                 initialDetails: initialDetails
             ),
-            favoritesStore: favoritesStore
+            favoritesStore: favoritesStore,
+            imagePipeline: imagePipeline
         )
     }
 }

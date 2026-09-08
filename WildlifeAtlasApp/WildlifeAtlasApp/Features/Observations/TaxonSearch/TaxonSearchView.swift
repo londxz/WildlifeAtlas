@@ -13,6 +13,7 @@ struct TaxonSearchView: View {
     private static let searchResultRowHeight: CGFloat = 69
 
     @Bindable var viewModel: TaxonSearchViewModel
+    let imagePipeline: ImagePipeline
     let searchFieldFocus: FocusState<Bool>.Binding
     let onSelectTaxon: (TaxonSummary) -> Void
 
@@ -86,7 +87,10 @@ struct TaxonSearchView: View {
                             Button {
                                 selectTaxon(taxon)
                             } label: {
-                                TaxonSearchResultRowView(taxon: taxon)
+                                TaxonSearchResultRowView(
+                                    taxon: taxon,
+                                    imagePipeline: imagePipeline
+                                )
                             }
                             .buttonStyle(.plain)
 

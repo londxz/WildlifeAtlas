@@ -50,6 +50,7 @@
 		3C525498304DA55200383DEE /* FavoriteObservationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C525499304DA55200383DEE /* FavoriteObservationRecord.swift */; };
 		3C52549A304DA55200383DEE /* SwiftDataFavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */; };
 		3C52549C304DA55200383DEE /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52549D304DA55200383DEE /* FavoritesStore.swift */; };
+		3C5254A0304DA55200383DEE /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5254A1304DA55200383DEE /* ImagePipeline.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		3C525499304DA55200383DEE /* FavoriteObservationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteObservationRecord.swift; sourceTree = "<group>"; };
 		3C52549B304DA55200383DEE /* SwiftDataFavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataFavoritesRepository.swift; sourceTree = "<group>"; };
 		3C52549D304DA55200383DEE /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
+		3C5254A1304DA55200383DEE /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,12 +214,21 @@
 		3C525456304DA55200383DEE /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				3C5254A2304DA55200383DEE /* Images */,
 				3C525453304DA55200383DEE /* Models */,
 				3C525454304DA55200383DEE /* Networking */,
 				3C525455304DA55200383DEE /* Repositories */,
 				3C525469304DA55200383DEE /* Settings */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		3C5254A2304DA55200383DEE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3C5254A1304DA55200383DEE /* ImagePipeline.swift */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		3C525457304DA55200383DEE /* Observations */ = {
@@ -394,6 +405,7 @@
 			files = (
 				3C525445304DA55200383DEE /* APIClient.swift in Sources */,
 				3C525460304DA55200383DEE /* AppSettings.swift in Sources */,
+				3C5254A0304DA55200383DEE /* ImagePipeline.swift in Sources */,
 				3C525496304DA55200383DEE /* FavoritesRepository.swift in Sources */,
 				3C525498304DA55200383DEE /* FavoriteObservationRecord.swift in Sources */,
 				3C52549A304DA55200383DEE /* SwiftDataFavoritesRepository.swift in Sources */,

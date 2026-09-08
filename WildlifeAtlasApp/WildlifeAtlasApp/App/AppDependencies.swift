@@ -12,6 +12,7 @@ struct AppDependencies {
     let taxonRepository: any TaxonRepository
     let favoritesRepository: any FavoritesRepository
     let appSettings: AppSettings
+    let imagePipeline: ImagePipeline
 
     @MainActor
     init() {
@@ -34,12 +35,14 @@ struct AppDependencies {
         }
 
         let appSettings = AppSettings(userDefaults: .standard)
+        let imagePipeline = ImagePipeline()
 
         self.init(
             observationRepository: observationRepository,
             taxonRepository: taxonRepository,
             favoritesRepository: favoritesRepository,
-            appSettings: appSettings
+            appSettings: appSettings,
+            imagePipeline: imagePipeline
         )
     }
 
@@ -47,12 +50,14 @@ struct AppDependencies {
         observationRepository: any ObservationRepository,
         taxonRepository: any TaxonRepository,
         favoritesRepository: any FavoritesRepository,
-        appSettings: AppSettings
+        appSettings: AppSettings,
+        imagePipeline: ImagePipeline
     ) {
         self.observationRepository = observationRepository
         self.taxonRepository = taxonRepository
         self.favoritesRepository = favoritesRepository
         self.appSettings = appSettings
+        self.imagePipeline = imagePipeline
     }
 
     private static let iNaturalistAPIBaseURL: URL = {

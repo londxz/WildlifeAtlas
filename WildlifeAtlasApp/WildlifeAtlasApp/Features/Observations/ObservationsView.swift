@@ -11,6 +11,7 @@ import SwiftUI
 struct ObservationsView: View {
     let viewModel: ObservationsViewModel
     let taxonSearchViewModel: TaxonSearchViewModel
+    let imagePipeline: ImagePipeline
 
     @ScaledMetric(relativeTo: .body)
     private var minimumGridItemWidth: CGFloat = 160
@@ -89,6 +90,7 @@ struct ObservationsView: View {
     private var taxonSearchView: some View {
         TaxonSearchView(
             viewModel: taxonSearchViewModel,
+            imagePipeline: imagePipeline,
             searchFieldFocus: $isTaxonSearchFocused,
             onSelectTaxon: { taxon in
                 selectTaxon(taxon)
@@ -144,7 +146,10 @@ struct ObservationsView: View {
         List {
             ForEach(contentState.observations) { observation in
                 NavigationLink(value: observation.id) {
-                    ObservationRowView(observation: observation)
+                    ObservationRowView(
+                        observation: observation,
+                        imagePipeline: imagePipeline
+                    )
                 }
                     .task {
                         await viewModel.loadNextPageIfNeeded(
@@ -173,7 +178,10 @@ struct ObservationsView: View {
             ) {
                 ForEach(contentState.observations) { observation in
                     NavigationLink(value: observation.id) {
-                        ObservationGridItemView(observation: observation)
+                        ObservationGridItemView(
+                            observation: observation,
+                            imagePipeline: imagePipeline
+                        )
                     }
                         .buttonStyle(.plain)
                         .task {
@@ -298,7 +306,8 @@ private struct PreviewTaxonRepository: TaxonRepository {
             ),
             taxonSearchViewModel: TaxonSearchViewModel(
                 taxonRepository: PreviewTaxonRepository()
-            )
+            ),
+            imagePipeline: ImagePipeline()
         )
     }
 }

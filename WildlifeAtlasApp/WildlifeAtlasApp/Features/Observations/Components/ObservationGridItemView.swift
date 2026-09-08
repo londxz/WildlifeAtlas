@@ -9,13 +9,17 @@ import SwiftUI
 
 struct ObservationGridItemView: View {
     let observation: ObservationSummary
+    let imagePipeline: ImagePipeline
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Color.clear
                 .aspectRatio(1, contentMode: .fit)
                 .overlay {
-                    ObservationImageView(url: observation.previewImageURL)
+                    ObservationImageView(
+                        url: observation.previewImageURL,
+                        imagePipeline: imagePipeline
+                    )
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
 
