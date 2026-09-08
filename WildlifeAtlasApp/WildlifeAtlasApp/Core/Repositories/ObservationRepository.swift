@@ -8,6 +8,11 @@
 import Foundation
 
 protocol ObservationRepository: Sendable {
-    func fetchObservations(page: Int, perPage: Int) async throws -> ObservationPage
+    func fetchObservations(
+        page: Int,
+        perPage: Int,
+        filters: ObservationFilters
+    ) async throws -> ObservationPage
+
     func fetchObservationDetails(id: UUID) async throws -> ObservationDetails?
 }

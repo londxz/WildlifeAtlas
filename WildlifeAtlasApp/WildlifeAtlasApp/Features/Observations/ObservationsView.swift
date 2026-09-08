@@ -14,33 +14,38 @@ struct ObservationsView: View {
     private var minimumGridItemWidth: CGFloat = 160
 
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .idle, .loading:
-                ObservationsLoadingView(
-                    layoutMode: viewModel.layoutMode,
-                    gridColumns: gridColumns
-                )
-            case .content(let contentState):
-                observationsContent(for: contentState)
-            case .empty:
-                ContentUnavailableView(
-                    "Наблюдений не найдено",
-                    systemImage: "binoculars",
-                    description: Text("Попробуйте обновить данные позднее.")
-                )
-            case .failure(let message):
-                ContentUnavailableView {
-                    Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
-                } description: {
-                    Text(message)
-                } actions: {
-                    Button("Повторить") {
-                        Task {
-                            await viewModel.retryInitialLoad()
+        VStack(spacing: 0) {
+            filtersView
+            Divider()
+
+            Group {
+                switch viewModel.state {
+                case .idle, .loading:
+                    ObservationsLoadingView(
+                        layoutMode: viewModel.layoutMode,
+                        gridColumns: gridColumns
+                    )
+                case .content(let contentState):
+                    observationsContent(for: contentState)
+                case .empty:
+                    ContentUnavailableView(
+                        "Наблюдений не найдено",
+                        systemImage: "binoculars",
+                        description: Text("Попробуйте изменить фильтры.")
+                    )
+                case .failure(let message):
+                    ContentUnavailableView {
+                        Label("Не удалось загрузить", systemImage: "wifi.exclamationmark")
+                    } description: {
+                        Text(message)
+                    } actions: {
+                        Button("Повторить") {
+                            Task {
+                                await viewModel.retryInitialLoad()
+                            }
                         }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .buttonStyle(.borderedProminent)
                 }
             }
         }
@@ -63,6 +68,27 @@ struct ObservationsView: View {
         .task {
             await viewModel.loadIfNeeded()
         }
+    }
+
+    private var filtersView: some View {
+        ObservationFiltersView(
+            filters: viewModel.filters,
+            onSelectTaxon: { taxon in
+                Task {
+                    await viewModel.selectTaxon(taxon)
+                }
+            },
+            onSelectQuality: { quality in
+                Task {
+                    await viewModel.selectQualityFilter(quality)
+                }
+            },
+            onSelectDateOrder: { dateOrder in
+                Task {
+                    await viewModel.selectDateOrder(dateOrder)
+                }
+            }
+        )
     }
 
     @ViewBuilder
@@ -192,7 +218,11 @@ struct ObservationsView: View {
 private struct PreviewObservationRepository: ObservationRepository {
     private let observationID = UUID()
 
-    func fetchObservations(page: Int, perPage: Int) async throws -> ObservationPage {
+    func fetchObservations(
+        page: Int,
+        perPage: Int,
+        filters: ObservationFilters
+    ) async throws -> ObservationPage {
         ObservationPage(
             observations: [
                 ObservationSummary(

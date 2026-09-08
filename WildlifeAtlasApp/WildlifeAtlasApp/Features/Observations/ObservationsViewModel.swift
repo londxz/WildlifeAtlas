@@ -35,10 +35,12 @@ final class ObservationsViewModel {
     }
 
     private(set) var state: State = .idle
+    private(set) var filters = ObservationFilters()
     private(set) var layoutMode: ObservationLayoutMode
 
     private let observationRepository: any ObservationRepository
     private let appSettings: AppSettings
+    private var observationsRequestVersion = 0
 
     init(
         observationRepository: any ObservationRepository,
@@ -54,6 +56,36 @@ final class ObservationsViewModel {
 
         self.layoutMode = layoutMode
         appSettings.saveObservationLayoutMode(layoutMode)
+    }
+
+    func selectTaxon(_ taxon: TaxonSummary?) async {
+        await updateFilters(
+            ObservationFilters(
+                taxon: taxon,
+                quality: filters.quality,
+                dateOrder: filters.dateOrder
+            )
+        )
+    }
+
+    func selectQualityFilter(_ quality: ObservationQualityFilter) async {
+        await updateFilters(
+            ObservationFilters(
+                taxon: filters.taxon,
+                quality: quality,
+                dateOrder: filters.dateOrder
+            )
+        )
+    }
+
+    func selectDateOrder(_ dateOrder: ObservationDateOrder) async {
+        await updateFilters(
+            ObservationFilters(
+                taxon: filters.taxon,
+                quality: filters.quality,
+                dateOrder: dateOrder
+            )
+        )
     }
 
     func loadIfNeeded() async {
@@ -90,19 +122,29 @@ final class ObservationsViewModel {
         await loadNextPage()
     }
 
+    private func updateFilters(_ filters: ObservationFilters) async {
+        guard self.filters != filters else { return }
+
+        self.filters = filters
+        await loadInitialPage()
+    }
+
     private func loadInitialPage() async {
-        if case .loading = state {
-            return
-        }
+        observationsRequestVersion += 1
+        let requestVersion = observationsRequestVersion
+        let requestedFilters = filters
 
         state = .loading
 
         do {
             let observationPage = try await observationRepository.fetchObservations(
                 page: Self.initialPage,
-                perPage: Self.pageSize
+                perPage: Self.pageSize,
+                filters: requestedFilters
             )
             try Task.checkCancellation()
+
+            guard requestVersion == observationsRequestVersion else { return }
 
             guard !observationPage.observations.isEmpty else {
                 state = .empty
@@ -117,6 +159,8 @@ final class ObservationsViewModel {
                 )
             )
         } catch {
+            guard requestVersion == observationsRequestVersion else { return }
+
             guard !Task.isCancelled else {
                 state = .idle
                 return
@@ -138,6 +182,9 @@ final class ObservationsViewModel {
             return
         }
 
+        let requestVersion = observationsRequestVersion
+        let requestedFilters = filters
+
         state = .content(
             ContentState(
                 observations: currentContentState.observations,
@@ -149,9 +196,12 @@ final class ObservationsViewModel {
         do {
             let observationPage = try await observationRepository.fetchObservations(
                 page: nextPage,
-                perPage: Self.pageSize
+                perPage: Self.pageSize,
+                filters: requestedFilters
             )
             try Task.checkCancellation()
+
+            guard requestVersion == observationsRequestVersion else { return }
 
             state = .content(
                 ContentState(
@@ -164,6 +214,8 @@ final class ObservationsViewModel {
                 )
             )
         } catch {
+            guard requestVersion == observationsRequestVersion else { return }
+
             guard !Task.isCancelled else {
                 state = .content(
                     ContentState(

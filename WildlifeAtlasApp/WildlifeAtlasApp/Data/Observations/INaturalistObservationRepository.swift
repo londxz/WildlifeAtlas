@@ -42,17 +42,41 @@ struct INaturalistObservationRepository: ObservationRepository {
         self.apiClient = apiClient
     }
 
-    func fetchObservations(page: Int, perPage: Int) async throws -> ObservationPage {
+    func fetchObservations(
+        page: Int,
+        perPage: Int,
+        filters: ObservationFilters
+    ) async throws -> ObservationPage {
+        var queryItems = [
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "per_page", value: String(perPage)),
+            URLQueryItem(name: "captive", value: "false"),
+            URLQueryItem(name: "order_by", value: "observed_on"),
+            URLQueryItem(name: "fields", value: Self.observationSummaryFields)
+        ]
+
+        if let taxon = filters.taxon {
+            queryItems.append(
+                URLQueryItem(name: "taxon_id", value: String(taxon.id))
+            )
+        }
+
+        if filters.quality == .research {
+            queryItems.append(
+                URLQueryItem(name: "quality_grade", value: "research")
+            )
+        }
+
+        switch filters.dateOrder {
+        case .newestFirst:
+            queryItems.append(URLQueryItem(name: "order", value: "desc"))
+        case .oldestFirst:
+            queryItems.append(URLQueryItem(name: "order", value: "asc"))
+        }
+
         let request = APIRequest(
             path: "observations",
-            queryItems: [
-                URLQueryItem(name: "page", value: String(page)),
-                URLQueryItem(name: "per_page", value: String(perPage)),
-                URLQueryItem(name: "captive", value: "false"),
-                URLQueryItem(name: "order", value: "desc"),
-                URLQueryItem(name: "order_by", value: "observed_on"),
-                URLQueryItem(name: "fields", value: Self.observationSummaryFields)
-            ]
+            queryItems: queryItems
         )
 
         let responseDTO = try await apiClient.get(request, as: ObservationPageDTO.self)
