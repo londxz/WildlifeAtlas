@@ -80,7 +80,9 @@ struct ObservationsView: View {
     ) -> some View {
         List {
             ForEach(contentState.observations) { observation in
-                ObservationRowView(observation: observation)
+                NavigationLink(value: observation.id) {
+                    ObservationRowView(observation: observation)
+                }
                     .task {
                         await viewModel.loadNextPageIfNeeded(
                             currentObservation: observation
@@ -107,7 +109,10 @@ struct ObservationsView: View {
                 spacing: 12
             ) {
                 ForEach(contentState.observations) { observation in
-                    ObservationGridItemView(observation: observation)
+                    NavigationLink(value: observation.id) {
+                        ObservationGridItemView(observation: observation)
+                    }
+                        .buttonStyle(.plain)
                         .task {
                             await viewModel.loadNextPageIfNeeded(
                                 currentObservation: observation
@@ -183,11 +188,13 @@ struct ObservationsView: View {
 }
 
 private struct PreviewObservationRepository: ObservationRepository {
+    private let observationID = UUID()
+
     func fetchObservations(page: Int, perPage: Int) async throws -> ObservationPage {
         ObservationPage(
             observations: [
-                WildlifeObservation(
-                    id: 1,
+                ObservationSummary(
+                    id: observationID,
                     commonName: "Рыжая лисица",
                     scientificName: "Vulpes vulpes",
                     observedOn: ObservationDate(year: 2026, month: 9, day: 6),
@@ -199,6 +206,10 @@ private struct PreviewObservationRepository: ObservationRepository {
             perPage: perPage,
             totalResults: 1
         )
+    }
+
+    func fetchObservationDetails(id: UUID) async throws -> ObservationDetails? {
+        nil
     }
 }
 

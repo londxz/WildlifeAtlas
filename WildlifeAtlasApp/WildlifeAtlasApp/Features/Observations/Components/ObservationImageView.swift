@@ -1,5 +1,5 @@
 //
-//  ObservationPreviewImageView.swift
+//  ObservationImageView.swift
 //  WildlifeAtlasApp
 //
 //  Created by Родион Холодов on 07.09.2026.
@@ -7,8 +7,14 @@
 
 import SwiftUI
 
-struct ObservationPreviewImageView: View {
+struct ObservationImageView: View {
     let url: URL
+    let contentMode: ContentMode
+
+    init(url: URL, contentMode: ContentMode = .fill) {
+        self.url = url
+        self.contentMode = contentMode
+    }
 
     var body: some View {
         AsyncImage(url: url) { phase in
@@ -18,7 +24,7 @@ struct ObservationPreviewImageView: View {
             case .success(let image):
                 image
                     .resizable()
-                    .scaledToFill()
+                    .aspectRatio(contentMode: contentMode)
             case .failure:
                 Image(systemName: "photo")
                     .foregroundStyle(.secondary)

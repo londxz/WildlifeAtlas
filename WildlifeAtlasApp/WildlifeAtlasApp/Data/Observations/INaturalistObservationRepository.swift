@@ -9,12 +9,31 @@ import Foundation
 
 struct INaturalistObservationRepository: ObservationRepository {
     private static let observationSummaryFields = [
-        "id",
+        "uuid",
         "observed_on",
         "quality_grade",
         "taxon.name",
         "taxon.preferred_common_name",
         "photos.url"
+    ].joined(separator: ",")
+
+    private static let observationDetailsFields = [
+        "uuid",
+        "observed_on",
+        "quality_grade",
+        "taxon.name",
+        "taxon.preferred_common_name",
+        "taxon.rank",
+        "taxon.iconic_taxon_name",
+        "taxon.wikipedia_url",
+        "photos.url",
+        "photos.license_code",
+        "photos.attribution",
+        "user.login",
+        "user.name",
+        "place_guess",
+        "geoprivacy",
+        "obscured"
     ].joined(separator: ",")
 
     private let apiClient: any APIClient
@@ -38,5 +57,25 @@ struct INaturalistObservationRepository: ObservationRepository {
 
         let responseDTO = try await apiClient.get(request, as: ObservationPageDTO.self)
         return responseDTO.toDomain()
+    }
+
+    func fetchObservationDetails(id: UUID) async throws -> ObservationDetails? {
+        let request = APIRequest(
+            path: "observations/\(id.uuidString.lowercased())",
+            queryItems: [
+                URLQueryItem(name: "captive", value: "false"),
+                URLQueryItem(name: "fields", value: Self.observationDetailsFields)
+            ]
+        )
+
+        do {
+            let responseDTO = try await apiClient.get(
+                request,
+                as: ObservationDetailsResponseDTO.self
+            )
+            return responseDTO.toDomain()
+        } catch APIClientError.unsuccessfulStatusCode(404) {
+            return nil
+        }
     }
 }

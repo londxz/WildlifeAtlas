@@ -6,7 +6,7 @@
 //
 
 struct ObservationPage: Sendable {
-    let observations: [WildlifeObservation]
+    let observations: [ObservationSummary]
     let page: Int
     let perPage: Int
     let totalResults: Int

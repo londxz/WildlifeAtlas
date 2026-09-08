@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ObservationGridItemView: View {
-    let observation: WildlifeObservation
+    let observation: ObservationSummary
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if let imageURL = observation.previewImageURL {
-                ObservationPreviewImageView(url: imageURL)
+                ObservationImageView(url: imageURL)
                     .aspectRatio(1, contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }

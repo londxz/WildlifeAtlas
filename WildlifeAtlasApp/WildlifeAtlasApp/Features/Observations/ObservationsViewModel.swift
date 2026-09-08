@@ -23,7 +23,7 @@ final class ObservationsViewModel {
     }
 
     struct ContentState {
-        let observations: [WildlifeObservation]
+        let observations: [ObservationSummary]
         let nextPage: Int?
         let paginationState: PaginationState
     }
@@ -66,7 +66,7 @@ final class ObservationsViewModel {
         await loadInitialPage()
     }
 
-    func loadNextPageIfNeeded(currentObservation: WildlifeObservation) async {
+    func loadNextPageIfNeeded(currentObservation: ObservationSummary) async {
         guard
             case .content(let contentState) = state,
             contentState.observations.last?.id == currentObservation.id,
@@ -197,9 +197,9 @@ final class ObservationsViewModel {
     }
 
     private static func appendingUniqueObservations(
-        _ newObservations: [WildlifeObservation],
-        to currentObservations: [WildlifeObservation]
-    ) -> [WildlifeObservation] {
+        _ newObservations: [ObservationSummary],
+        to currentObservations: [ObservationSummary]
+    ) -> [ObservationSummary] {
         let currentObservationIDs = Set(currentObservations.map(\.id))
         let uniqueNewObservations = newObservations.filter {
             !currentObservationIDs.contains($0.id)

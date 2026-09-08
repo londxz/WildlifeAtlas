@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ObservationRowView: View {
-    let observation: WildlifeObservation
+    let observation: ObservationSummary
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             if let imageURL = observation.previewImageURL {
-                ObservationPreviewImageView(url: imageURL)
+                ObservationImageView(url: imageURL)
                     .frame(width: 88, height: 88)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }

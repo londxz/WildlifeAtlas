@@ -1,5 +1,5 @@
 //
-//  WildlifeObservation.swift
+//  ObservationSummary.swift
 //  WildlifeAtlasApp
 //
 //  Created by Родион Холодов on 07.09.2026.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WildlifeObservation: Identifiable, Hashable, Sendable {
-    let id: Int
+struct ObservationSummary: Identifiable, Sendable {
+    let id: UUID
     let commonName: String?
     let scientificName: String?
     let observedOn: ObservationDate?
@@ -16,7 +16,7 @@ struct WildlifeObservation: Identifiable, Hashable, Sendable {
     let previewImageURL: URL?
 }
 
-struct ObservationDate: Hashable, Sendable {
+struct ObservationDate: Sendable {
     let year: Int
     let month: Int
     let day: Int
@@ -66,7 +66,7 @@ struct ObservationDate: Hashable, Sendable {
     }
 }
 
-enum ObservationQualityGrade: Hashable, Sendable {
+enum ObservationQualityGrade: Sendable {
     case research
     case needsIdentification
     case casual
